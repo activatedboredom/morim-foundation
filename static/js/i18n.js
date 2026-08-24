@@ -8,14 +8,14 @@
       cta: "Want to do something together?",
       h_programs: "Programs",
       a_programs:
-        '<p class="programs-lead">We run programs for teachers and coordinators. Each one starts with an&nbsp;intensive and quickly moves into practice: teachers teach children; coordinators bring real situations from their schools and work through them together. A&nbsp;mentor stays with the group throughout. More than half of&nbsp;every program is practice.</p>' +
+        '<p class="programs-lead">We run programs for teachers and coordinators. Each one starts with an&nbsp;intensive and quickly moves into practice: teachers run lessons with children; coordinators bring real situations from their schools and work through them together. A&nbsp;mentor stays with the group throughout. More than half of&nbsp;every program is practice.</p>' +
         '<p class="programs-lead">We don’t have a new pedagogy to&nbsp;sell. We use approaches we trust and that have been well studied, such as inquiry-based learning, activity-based learning, and project work.</p>' +
         '<p class="programs-lead">The test is simple: does it still work in&nbsp;a class of&nbsp;35 on&nbsp;a Tuesday morning?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
             '<h3>For teachers</h3>' +
             '<ul>' +
-              '<li>intensives where we unpack and try specific teaching practices</li>' +
+              '<li>intensives where we explore and try specific teaching practices</li>' +
               '<li>then several weeks of&nbsp;teaching children, with a weekly mentor debrief</li>' +
               '<li>late primary and early middle school — around the age when many children begin to&nbsp;lose interest in&nbsp;learning</li>' +
             '</ul>' +
@@ -33,16 +33,16 @@
               '<li>rakazim are teachers too — they teach their own classes and help a whole team work better</li>' +
               '<li>leading people who don’t formally report to&nbsp;you</li>' +
               '<li>feedback people can actually use</li>' +
-              '<li>distributing the workload across the team and making time for your own development and your colleagues’ development</li>' +
+              '<li>distributing the workload across the team and making time for everyone to&nbsp;grow</li>' +
               '<li>built together with rakazim</li>' +
               '<li>the first pilot starts in&nbsp;fall 2026</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>Strong teachers need schools where they can do good work and want to&nbsp;stay. That’s why we work not only with teachers, but also with people who shape how a whole team works.</p>',
+        '<p>Strong teachers need schools where they can do good work and want to&nbsp;stay. That’s why our programs are not only for teachers, but also for people who shape the teams around them.</p>',
       h_believe: "Why teachers?",
       a_believe:
-        '<p>One good teacher can shape hundreds of&nbsp;children. Some teachers also shape the adults around them.</p>' +
+        '<p>One good teacher can shape hundreds of&nbsp;children. Some shape the adults around them too.</p>' +
         '<p>That’s why we bet on&nbsp;teachers.</p>' +
         '<p class="label">What about AI?</p>' +
         '<p>We teach teachers to&nbsp;use AI — and to&nbsp;teach children how to&nbsp;use it — instead of&nbsp;training AI to&nbsp;replace teachers.</p>',
@@ -109,13 +109,13 @@
               '<li>раказим тоже учителя — они ведут свои классы и&nbsp;помогают целой команде работать лучше</li>' +
               '<li>вести людей, которые формально тебе не&nbsp;подчиняются</li>' +
               '<li>давать обратную связь, которая действительно помогает</li>' +
-              '<li>распределять нагрузку в&nbsp;команде и&nbsp;находить время на&nbsp;собственное развитие и&nbsp;развитие коллег</li>' +
+              '<li>распределять нагрузку в&nbsp;команде и&nbsp;находить время на&nbsp;профессиональное развитие — своё и&nbsp;коллег</li>' +
               '<li>программу делаем вместе с&nbsp;самими раказим</li>' +
               '<li>первый пилот стартует осенью 2026 года</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>Сильным учителям нужны школы, в&nbsp;которых можно хорошо работать и&nbsp;хочется оставаться. Поэтому мы работаем не&nbsp;только с&nbsp;учителями, но&nbsp;и&nbsp;с&nbsp;теми, кто влияет на&nbsp;работу целой команды.</p>',
+        '<p>Сильным учителям нужны школы, в&nbsp;которых можно хорошо работать и&nbsp;хочется оставаться. Поэтому наши программы — не&nbsp;только для учителей, но&nbsp;и&nbsp;для тех, кто влияет на&nbsp;целую команду.</p>',
       h_believe: "Почему именно учителя?",
       a_believe:
         '<p>Один хороший учитель может повлиять на&nbsp;сотни детей. Некоторые — ещё и&nbsp;на&nbsp;коллег вокруг себя.</p>' +
@@ -160,8 +160,8 @@
       cta: "רוצים לעשות משהו יחד?",
       h_programs: "תוכניות",
       a_programs:
-        '<p class="programs-lead">אנחנו מפעילים תוכניות למורים ולרכזים ורכזות. כל תוכנית מתחילה בהכשרה אינטנסיבית ועוברת מהר לעבודה מעשית: מורים מלמדים ילדים, ורכזים ורכזות מביאים מצבים אמיתיים מבתי הספר שלהם ועובדים עליהם יחד. מנטור מלווה את הקבוצה לאורך כל התוכנית. יותר ממחצית מכל תוכנית מוקדשת לתרגול.</p>' +
-        '<p class="programs-lead">אין לנו פדגוגיה חדשה למכור. אנחנו משתמשים בגישות שאנחנו סומכים עליהן ושכבר נחקרו היטב, כמו למידת חקר, למידה מבוססת פעילות ועבודה מבוססת פרויקטים.</p>' +
+        '<p class="programs-lead">אנחנו מפעילים תוכניות למורים ולרכזים ורכזות. כל תוכנית מתחילה בהכשרה אינטנסיבית ועוברת מהר לעבודה מעשית: מורים מעבירים שיעורים לילדים, ורכזים ורכזות מביאים מצבים אמיתיים מבתי הספר שלהם ועובדים עליהם יחד. מנטור מלווה את הקבוצה לאורך כל התוכנית. יותר ממחצית מכל תוכנית מוקדשת לתרגול.</p>' +
+        '<p class="programs-lead">אין לנו פדגוגיה חדשה למכור. אנחנו משתמשים בגישות שאנחנו סומכים עליהן ושנחקרו היטב, כמו למידת חקר, למידה מבוססת פעילות ועבודה מבוססת פרויקטים.</p>' +
         '<p class="programs-lead">המבחן פשוט: האם זה עדיין עובד בכיתה רגילה של 35 ילדים ביום שלישי בבוקר?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
@@ -185,16 +185,16 @@
               '<li>רכזים ורכזות הם גם מורים — הם מלמדים בכיתות שלהם ועוזרים לצוות שלם לעבוד טוב יותר</li>' +
               '<li>להוביל אנשים שלא כפופים לכם רשמית</li>' +
               '<li>לתת משוב שאפשר באמת לעשות איתו משהו</li>' +
-              '<li>לחלק את העומס בצוות ולמצוא זמן להתפתחות שלכם ושל העמיתים שלכם</li>' +
+              '<li>לחלק את העומס בצוות ולפנות זמן להתפתחות מקצועית של כולם</li>' +
               '<li>בונים יחד עם רכזים ורכזות</li>' +
               '<li>פיילוט ראשון יוצא לדרך בסתיו 2026</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>מורים חזקים צריכים בתי ספר שבהם אפשר לעבוד טוב ושבהם רוצים להישאר. לכן אנחנו עובדים לא רק עם מורים, אלא גם עם מי שמשפיעים על האופן שבו צוות שלם עובד.</p>',
+        '<p>מורים חזקים צריכים בתי ספר שבהם אפשר לעבוד טוב ושבהם רוצים להישאר. לכן התוכניות שלנו מיועדות לא רק למורים, אלא גם למי שמשפיעים על צוות שלם.</p>',
       h_believe: "למה דווקא מורים?",
       a_believe:
-        '<p>מורה טוב אחד יכול להשפיע על מאות ילדים. יש מורים שמשפיעים גם על הצוות שסביבם.</p>' +
+        '<p>מורה טוב אחד יכול להשפיע על מאות ילדים. חלקם משפיעים גם על העמיתים שסביבם.</p>' +
         '<p>לכן אנחנו מהמרים על המורים.</p>' +
         '<p class="label">ומה עם AI?</p>' +
         '<p>אנחנו מלמדים מורים להשתמש ב-AI — וללמד ילדים איך להשתמש בו — במקום לאמן AI להחליף מורים.</p>',
