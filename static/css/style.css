@@ -76,12 +76,6 @@ strong { font-weight: 600; }
   margin-inline: auto;
 }
 .hero .tagline { max-width: 24em; margin-inline: auto; }   /* .hero-scoped: must out-rank `.hero p { margin: 0 }` */
-.mission {
-  max-width: 26em;
-  margin: clamp(28px, 5vh, 44px) auto 0;
-}
-.mission p { margin: 0 0 20px; }
-.mission p:last-child { margin-bottom: 0; }
 
 /* ---------- CTA ---------- */
 p.cta-wrap { text-align: center; margin: 38px 0 0; }   /* p-qualified: must out-rank `.hero p { margin: 0 }` */

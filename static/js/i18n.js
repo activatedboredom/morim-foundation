@@ -5,51 +5,52 @@
     en: {
       tagline:
         "We bet on&nbsp;teachers",
-      mission:
-        '<p>One good teacher shapes hundreds of&nbsp;children over a career. The Foundation runs training programs that help teachers and coordinators get better at&nbsp;the work they already do.</p>',
       cta: "Want to do something together?",
       h_programs: "Programs",
       a_programs:
-        '<p class="programs-lead">Each program combines an&nbsp;intensive, hands-on practice, and work with a mentor. More than half of&nbsp;every program is practice. The programs are built on&nbsp;approaches with a well-studied track record: inquiry-based learning, structured discussion, the craft of&nbsp;teaching.</p>' +
+        '<p class="programs-lead">We run programs for teachers and coordinators. Each one starts with an&nbsp;intensive and quickly moves into practice: teachers teach children; coordinators bring real situations from their schools and work through them together. A&nbsp;mentor stays with the group throughout. More than half of&nbsp;every program is practice.</p>' +
+        '<p class="programs-lead">We don’t have a new pedagogy to&nbsp;sell. We use approaches we trust — and that have been studied and tested, such as inquiry, structured discussion, and the everyday craft of&nbsp;teaching.</p>' +
+        '<p class="programs-lead">The test is simple: does it still work in&nbsp;a class of&nbsp;35 on&nbsp;a Tuesday morning?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
             '<h3>For teachers</h3>' +
             '<ul>' +
               '<li>an&nbsp;intensive on the hardest parts of&nbsp;the craft</li>' +
               '<li>then several weeks of&nbsp;teaching children, with a weekly mentor debrief</li>' +
-              '<li>late primary and early middle school — when many children’s interest in&nbsp;learning starts to&nbsp;fade</li>' +
+              '<li>late primary and early middle school — around the age when many children begin to&nbsp;lose interest in&nbsp;learning</li>' +
             '</ul>' +
-            '<p class="label">Practical craft</p>' +
+            '<p class="label">Ordinary questions, hard ones</p>' +
             '<ul>' +
-              '<li>getting a class’s attention without raising your voice</li>' +
-              '<li>motivation that doesn’t run on&nbsp;grades</li>' +
-              '<li>lessons that start with a real question</li>' +
-              '<li>discussions where children answer each other instead of&nbsp;guessing what the teacher wants to&nbsp;hear</li>' +
+              '<li>how do you get a class’s attention without raising your voice?</li>' +
+              '<li>how do you build motivation that doesn’t depend on&nbsp;grades?</li>' +
+              '<li>how do you start a lesson with a real question?</li>' +
+              '<li>how do you get children talking to&nbsp;each other instead of&nbsp;guessing what the teacher wants to&nbsp;hear?</li>' +
             '</ul>' +
           '</div>' +
           '<div class="program">' +
             '<h3>For coordinators</h3>' +
             '<ul>' +
-              '<li>rakazim keep teaching while also helping a whole team work well</li>' +
-              '<li>practice on&nbsp;real situations from their own schools</li>' +
+              '<li>rakazim are teachers too — they teach their own classes and help a whole team work better</li>' +
               '<li>leading people who don’t formally report to&nbsp;you</li>' +
-              '<li>feedback that actually helps</li>' +
-              '<li>load that’s shared instead of&nbsp;carried alone</li>' +
+              '<li>feedback people can actually use</li>' +
+              '<li>sharing the load — and somehow still finding time to&nbsp;teach</li>' +
               '<li>built together with rakazim</li>' +
               '<li>the first pilot starts in&nbsp;fall 2026</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>The two programs are connected: strong teachers need schools where they can do good work and want to&nbsp;stay.</p>',
-      h_believe: "What we believe",
+        '<p>Strong teachers need schools where they can do good work and want to&nbsp;stay. That’s why this program exists.</p>',
+      h_believe: "Why teachers?",
       a_believe:
-        '<p>We care less about what looks good in&nbsp;a workshop than what still works afterwards — in&nbsp;a regular class of&nbsp;35 on&nbsp;a Tuesday morning.</p>' +
+        '<p>One good teacher can shape hundreds of&nbsp;children. Some teachers also shape the adults around them.</p>' +
+        '<p>That’s why we bet on&nbsp;teachers.</p>' +
         '<p class="label">What about AI?</p>' +
         '<p>We teach teachers to&nbsp;use AI — and to&nbsp;teach children how to&nbsp;use it — instead of&nbsp;training AI to&nbsp;replace teachers.</p>',
       h_pilot: "The first pilot",
       a_pilot:
         '<p>In&nbsp;summer 2026, <strong>17&nbsp;teachers</strong> finished our first intensive. <strong>16&nbsp;of&nbsp;them</strong> are now continuing paid teaching practice with children and meet with a mentor every week; <strong>14&nbsp;of&nbsp;the&nbsp;17</strong> would recommend the program to&nbsp;colleagues.</p>' +
-        '<p><strong>Two-thirds of&nbsp;the children</strong> we surveyed said they’d like to&nbsp;have lessons like these at&nbsp;school. For now, it’s an&nbsp;early signal from a very favorable setting — we’ll see whether it holds up in&nbsp;regular classrooms.</p>' +
+        '<p><strong>Two-thirds of&nbsp;the children</strong> we surveyed said they’d like to&nbsp;have lessons like these at&nbsp;school.</p>' +
+        '<p>That’s encouraging, but it’s still a small, unusually friendly setting. We’ll be much more convinced if the same thing happens in&nbsp;ordinary classrooms.</p>' +
         '<p><a href="https://summer-pilot-2026.utterstep.app/" target="_blank" rel="noopener">More about the first pilot</a></p>',
       h_paid: "Do participants get paid?",
       a_paid:
@@ -73,58 +74,59 @@
         '</div>',
       h_contact: "Let’s talk",
       a_contact:
-        '<p>If you run a school or a municipality — let’s talk about a program for your teams. If you teach or coordinate — <a class="join-link" href="https://survey.morim.foundation/s/join-v1?src=landing&lang=en">leave your contact in&nbsp;the form</a>. And if you simply want to&nbsp;see whether we could do something together — write to&nbsp;us.</p>' +
+        '<p>If you’re a teacher, work with a school or municipality, or just think we should talk — <a class="join-link" href="https://survey.morim.foundation/s/join-v1?src=landing&lang=en">leave your contact in&nbsp;the form</a> or write to&nbsp;us.</p>' +
         '<p><a href="mailto:contact@morim.foundation">contact@morim.foundation</a></p>'
     },
 
     ru: {
       tagline:
         "Мы делаем ставку на&nbsp;учителей",
-      mission:
-        '<p>Один хороший учитель за&nbsp;свою карьеру влияет на&nbsp;сотни детей. Фонд организует обучающие программы, которые помогают учителям и&nbsp;координаторам становиться сильнее в&nbsp;своей работе.</p>',
       cta: "Хотите что-то сделать вместе?",
       h_programs: "Программы",
       a_programs:
-        '<p class="programs-lead">В&nbsp;каждой программе есть интенсив, практика и&nbsp;работа с&nbsp;ментором. Больше половины каждой программы — практика. В&nbsp;основе программ — подходы с&nbsp;хорошо изученным эффектом: обучение через исследование, структурированные дискуссии, ремесло преподавания.</p>' +
+        '<p class="programs-lead">Мы делаем программы для учителей и&nbsp;координаторов. Каждая начинается с&nbsp;интенсива и&nbsp;быстро переходит к&nbsp;практике: учителя ведут занятия с&nbsp;детьми, а&nbsp;координаторы приносят реальные ситуации из&nbsp;своих школ и&nbsp;разбирают их вместе. На&nbsp;протяжении всей программы группу сопровождает ментор. Больше половины каждой программы — практика.</p>' +
+        '<p class="programs-lead">Мы не&nbsp;пришли продавать новую педагогику. Мы используем подходы, которым доверяем — и&nbsp;которые уже изучали и&nbsp;проверяли, такие как: исследовательское обучение, структурированные дискуссии и&nbsp;повседневное учительское ремесло.</p>' +
+        '<p class="programs-lead">Проверка простая: работает&nbsp;ли это в&nbsp;обычном классе из&nbsp;35&nbsp;человек во&nbsp;вторник утром?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
             '<h3>Для учителей</h3>' +
             '<ul>' +
               '<li>интенсив о&nbsp;самом сложном в&nbsp;ремесле</li>' +
               '<li>затем несколько недель занятий с&nbsp;детьми и&nbsp;еженедельный разбор с&nbsp;ментором</li>' +
-              '<li>конец начальной школы и&nbsp;начало средней — время, когда интерес к&nbsp;учёбе у&nbsp;многих детей начинает снижаться</li>' +
+              '<li>конец начальной и&nbsp;начало средней школы — примерно тот возраст, когда у&nbsp;многих детей начинает пропадать интерес к&nbsp;учёбе</li>' +
             '</ul>' +
-            '<p class="label">Ремесло</p>' +
+            '<p class="label">Обычные вопросы — но&nbsp;трудные</p>' +
             '<ul>' +
-              '<li>собрать внимание класса, не&nbsp;повышая голоса</li>' +
-              '<li>мотивация, которая не&nbsp;держится на&nbsp;оценках</li>' +
-              '<li>урок, который начинается с&nbsp;настоящего вопроса</li>' +
-              '<li>дискуссии, в&nbsp;которых дети отвечают друг другу, а&nbsp;не&nbsp;угадывают, что хочет услышать учитель</li>' +
+              '<li>как собрать внимание класса, не&nbsp;повышая голоса?</li>' +
+              '<li>как строить мотивацию, которая не&nbsp;держится на&nbsp;оценках?</li>' +
+              '<li>как начать урок с&nbsp;настоящего вопроса?</li>' +
+              '<li>как сделать так, чтобы дети разговаривали друг с&nbsp;другом, а&nbsp;не&nbsp;угадывали, что хочет услышать учитель?</li>' +
             '</ul>' +
           '</div>' +
           '<div class="program">' +
             '<h3>Для координаторов</h3>' +
             '<ul>' +
-              '<li>раказим продолжают преподавать и&nbsp;одновременно помогают целой команде работать лучше</li>' +
-              '<li>практика на&nbsp;реальных ситуациях из&nbsp;своей работы</li>' +
+              '<li>раказим тоже учителя — они ведут свои классы и&nbsp;помогают целой команде работать лучше</li>' +
               '<li>вести людей, которые формально тебе не&nbsp;подчиняются</li>' +
-              '<li>обратная связь, которая действительно помогает</li>' +
-              '<li>нагрузка, которую делят, а&nbsp;не&nbsp;тащат в&nbsp;одиночку</li>' +
+              '<li>давать обратную связь, которой действительно можно воспользоваться</li>' +
+              '<li>делить нагрузку — и&nbsp;при этом как-то находить время на&nbsp;преподавание</li>' +
               '<li>программу делаем вместе с&nbsp;самими раказим</li>' +
               '<li>первый пилот стартует осенью 2026 года</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>Оба направления связаны: сильным учителям нужны школы, в&nbsp;которых можно хорошо работать и&nbsp;хочется оставаться.</p>',
-      h_believe: "Во что мы верим",
+        '<p>Сильным учителям нужны школы, в&nbsp;которых можно хорошо работать и&nbsp;хочется оставаться. Поэтому эта программа и&nbsp;существует.</p>',
+      h_believe: "Почему именно учителя?",
       a_believe:
-        '<p>Важно не&nbsp;то, что хорошо выглядит на&nbsp;воркшопе, а&nbsp;то, что работает потом — в&nbsp;обычном классе из&nbsp;35&nbsp;человек во&nbsp;вторник утром.</p>' +
+        '<p>Один хороший учитель может повлиять на&nbsp;сотни детей. Некоторые учителя влияют ещё и&nbsp;на&nbsp;взрослых вокруг себя.</p>' +
+        '<p>Поэтому мы делаем ставку на&nbsp;учителей.</p>' +
         '<p class="label">А&nbsp;что с&nbsp;ИИ?</p>' +
         '<p>Мы учим учителей пользоваться ИИ и&nbsp;учить этому детей — а&nbsp;не&nbsp;обучаем ИИ заменять учителей.</p>',
       h_pilot: "Первый пилот",
       a_pilot:
         '<p>Летом 2026 года первый интенсив закончили <strong>17&nbsp;учителей</strong>. <strong>16 из&nbsp;них</strong> сейчас продолжают оплачиваемую практику с&nbsp;детьми и&nbsp;каждую неделю встречаются с&nbsp;ментором; <strong>14 из&nbsp;17</strong> готовы рекомендовать программу коллегам.</p>' +
-        '<p><strong>Две трети опрошенных детей</strong> сказали, что хотели&nbsp;бы видеть похожие уроки в&nbsp;своей школе. Пока это ранний сигнал из&nbsp;очень дружелюбной среды. Посмотрим, повторится&nbsp;ли этот результат в&nbsp;обычных классах.</p>' +
+        '<p><strong>Две трети опрошенных детей</strong> сказали, что хотели&nbsp;бы, чтобы такие уроки были у&nbsp;них в&nbsp;школе.</p>' +
+        '<p>Это обнадёживает, но&nbsp;группа пока маленькая, а&nbsp;условия — необычно благоприятные. Нам будет гораздо легче поверить в&nbsp;результат, если то&nbsp;же самое повторится в&nbsp;обычных классах.</p>' +
         '<p><a href="https://summer-pilot-2026.utterstep.app/" target="_blank" rel="noopener">Подробнее о&nbsp;первом пилоте</a></p>',
       h_paid: "За участие платят?",
       a_paid:
@@ -148,58 +150,59 @@
         '</div>',
       h_contact: "Давайте поговорим",
       a_contact:
-        '<p>Если вы школа или муниципалитет — давайте обсудим программу для ваших команд. Если вы преподаёте или координируете — <a class="join-link" href="https://survey.morim.foundation/s/join-v1?src=landing&lang=ru">оставьте контакт в&nbsp;форме</a>. А&nbsp;если просто хотите понять, можем&nbsp;ли мы что-то сделать вместе, — напишите нам.</p>' +
+        '<p>Если вы учитель, работаете со&nbsp;школой или муниципалитетом или просто думаете, что нам стоит поговорить — <a class="join-link" href="https://survey.morim.foundation/s/join-v1?src=landing&lang=ru">оставьте контакт в&nbsp;форме</a> или напишите нам.</p>' +
         '<p><a href="mailto:contact@morim.foundation">contact@morim.foundation</a></p>'
     },
 
     he: {
       tagline:
         "אנחנו מהמרים על&nbsp;המורים",
-      mission:
-        '<p>מורה טוב אחד משפיע במהלך הקריירה על מאות ילדים. הקרן מפעילה תוכניות הכשרה שעוזרות למורים ולרכזים להיות טובים יותר במה שהם כבר עושים.</p>',
       cta: "רוצים לעשות משהו יחד?",
       h_programs: "תוכניות",
       a_programs:
-        '<p class="programs-lead">בכל תוכנית יש אינטנסיב, תרגול מעשי ועבודה עם מנטור. יותר ממחצית מכל תוכנית היא תרגול. התוכניות בנויות על גישות שנחקרו היטב: למידת חקר, דיונים מובנים, אומנות ההוראה.</p>' +
+        '<p class="programs-lead">אנחנו מפעילים תוכניות למורים ולרכזים ורכזות. כל תוכנית מתחילה בהכשרה אינטנסיבית ועוברת מהר לעבודה מעשית: מורים מלמדים ילדים, ורכזים ורכזות מביאים מצבים אמיתיים מבתי הספר שלהם ועובדים עליהם יחד. מנטור מלווה את הקבוצה לאורך כל התוכנית. יותר ממחצית מכל תוכנית מוקדשת לתרגול.</p>' +
+        '<p class="programs-lead">אין לנו פדגוגיה חדשה למכור. אנחנו משתמשים בגישות שאנחנו סומכים עליהן — ושכבר נחקרו ונבדקו, כמו: למידת חקר, דיון מובנה והמלאכה היומיומית של ההוראה.</p>' +
+        '<p class="programs-lead">המבחן פשוט: האם זה עדיין עובד בכיתה רגילה של 35 ילדים ביום שלישי בבוקר?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
             '<h3>למורים</h3>' +
             '<ul>' +
               '<li>אינטנסיב על החלקים הקשים ביותר במקצוע</li>' +
               '<li>ואחריו כמה שבועות של הוראת ילדים, עם ניתוח שבועי עם מנטור</li>' +
-              '<li>הכיתות הגבוהות של היסודי ותחילת חטיבת הביניים — השנים שבהן העניין בלמידה אצל ילדים רבים מתחיל לדעוך</li>' +
+              '<li>הכיתות הגבוהות של בית הספר היסודי ותחילת חטיבת הביניים — בערך בגיל שבו ילדים רבים מתחילים לאבד עניין בלמידה</li>' +
             '</ul>' +
-            '<p class="label">המלאכה עצמה</p>' +
+            '<p class="label">שאלות יומיומיות, אבל קשות</p>' +
             '<ul>' +
-              '<li>לרכז את הקשב של הכיתה בלי להרים את הקול</li>' +
-              '<li>מוטיבציה שלא נשענת על ציונים</li>' +
-              '<li>שיעור שמתחיל משאלה אמיתית</li>' +
-              '<li>דיונים שבהם הילדים עונים זה לזה במקום לנחש מה המורה רוצה לשמוע</li>' +
+              '<li>איך מרכזים את הקשב של הכיתה בלי להרים את הקול?</li>' +
+              '<li>איך בונים מוטיבציה שלא תלויה בציונים?</li>' +
+              '<li>איך מתחילים שיעור בשאלה אמיתית?</li>' +
+              '<li>איך גורמים לילדים לדבר זה עם זה במקום לנחש מה המורה רוצה לשמוע?</li>' +
             '</ul>' +
           '</div>' +
           '<div class="program">' +
             '<h3>לרכזים ולרכזות</h3>' +
             '<ul>' +
-              '<li>רכזים ורכזות ממשיכים ללמד ובמקביל עוזרים לצוות שלם לעבוד טוב יותר</li>' +
-              '<li>תרגול על מצבים אמיתיים מהעבודה</li>' +
-              '<li>להוביל אנשים שלא כפופים לך פורמלית</li>' +
-              '<li>משוב שבאמת עוזר</li>' +
-              '<li>עומס שמתחלק במקום ליפול על אדם אחד</li>' +
+              '<li>רכזים ורכזות הם גם מורים — הם מלמדים בכיתות שלהם ועוזרים לצוות שלם לעבוד טוב יותר</li>' +
+              '<li>להוביל אנשים שלא כפופים לכם רשמית</li>' +
+              '<li>לתת משוב שאנשים באמת יכולים להשתמש בו</li>' +
+              '<li>לחלוק את העומס — ובכל זאת איכשהו למצוא זמן ללמד</li>' +
               '<li>בונים יחד עם רכזים ורכזות</li>' +
               '<li>פיילוט ראשון יוצא לדרך בסתיו 2026</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>שני הכיוונים קשורים: מורים חזקים צריכים בתי ספר שבהם הם יכולים לעבוד טוב וגם רוצים להישאר.</p>',
-      h_believe: "במה אנחנו מאמינים",
+        '<p>מורים חזקים צריכים בתי ספר שבהם אפשר לעבוד טוב ושבהם רוצים להישאר. בשביל זה התוכנית הזאת קיימת.</p>',
+      h_believe: "למה דווקא מורים?",
       a_believe:
-        '<p>מה שחשוב הוא לא מה שנראה טוב בסדנה, אלא מה שעובד אחר כך — בכיתה רגילה של 35 ילדים ביום שלישי בבוקר.</p>' +
+        '<p>מורה טוב אחד יכול להשפיע על מאות ילדים. יש מורים שמשפיעים גם על המבוגרים שסביבם.</p>' +
+        '<p>לכן אנחנו מהמרים על המורים.</p>' +
         '<p class="label">ומה עם AI?</p>' +
         '<p>אנחנו מלמדים מורים להשתמש ב-AI — וללמד ילדים איך להשתמש בו — במקום לאמן AI להחליף מורים.</p>',
       h_pilot: "הפיילוט הראשון",
       a_pilot:
         '<p>בקיץ 2026 סיימו <strong>17 מורים ומורות</strong> את האינטנסיב הראשון שלנו. <strong>16 מהם</strong> ממשיכים כעת בהתנסות מעשית בתשלום: מלמדים ילדים ונפגשים עם מנטור מדי שבוע; <strong>14 מתוך 17</strong> היו ממליצים על התוכנית לעמיתים.</p>' +
-        '<p><strong>שני שלישים מהילדים</strong> שנשאלו אמרו שהיו רוצים שיעורים כאלה גם בבית הספר שלהם. בינתיים זה סימן מוקדם מסביבה תומכת במיוחד — נראה אם התוצאה הזאת תחזור על עצמה בכיתות רגילות.</p>' +
+        '<p><strong>שני שלישים מהילדים</strong> ששאלנו אמרו שהיו רוצים שיעורים כאלה גם בבית הספר שלהם.</p>' +
+        '<p>זה מעודד, אבל זו עדיין קבוצה קטנה, ובתנאים נוחים במיוחד. נהיה הרבה יותר משוכנעים אם נראה את אותו הדבר גם בכיתות רגילות.</p>' +
         '<p><a href="https://summer-pilot-2026.utterstep.app/" target="_blank" rel="noopener">עוד על הפיילוט הראשון</a></p>',
       h_paid: "האם משלמים על ההשתתפות?",
       a_paid:
@@ -223,7 +226,7 @@
         '</div>',
       h_contact: "בואו נדבר",
       a_contact:
-        '<p>אם אתם בית ספר או רשות מקומית — בואו נדבר על תוכנית לצוותים שלכם. אם אתם מלמדים או מרכזים — <a class="join-link" href="https://survey.morim.foundation/s/join-v1?src=landing&lang=he">השאירו פרטי קשר בטופס</a>. ואם אתם פשוט רוצים לבדוק אם נוכל לעשות משהו יחד — כתבו לנו.</p>' +
+        '<p>אם אתם מורים, עובדים עם בית ספר או רשות מקומית, או פשוט חושבים שכדאי לנו לדבר — <a class="join-link" href="https://survey.morim.foundation/s/join-v1?src=landing&lang=he">השאירו פרטים בטופס</a> או כתבו לנו.</p>' +
         '<p><a href="mailto:contact@morim.foundation">contact@morim.foundation</a></p>'
     }
   };
