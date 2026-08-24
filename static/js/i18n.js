@@ -9,13 +9,13 @@
       h_programs: "Programs",
       a_programs:
         '<p class="programs-lead">We run programs for teachers and coordinators. Each one starts with an&nbsp;intensive and quickly moves into practice: teachers teach children; coordinators bring real situations from their schools and work through them together. A&nbsp;mentor stays with the group throughout. More than half of&nbsp;every program is practice.</p>' +
-        '<p class="programs-lead">We don’t have a new pedagogy to&nbsp;sell. We use approaches we trust — and that have been studied and tested, such as inquiry, structured discussion, and the everyday craft of&nbsp;teaching.</p>' +
+        '<p class="programs-lead">We don’t have a new pedagogy to&nbsp;sell. We use approaches we trust and that have been well studied, such as inquiry-based learning, activity-based learning, and project work.</p>' +
         '<p class="programs-lead">The test is simple: does it still work in&nbsp;a class of&nbsp;35 on&nbsp;a Tuesday morning?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
             '<h3>For teachers</h3>' +
             '<ul>' +
-              '<li>an&nbsp;intensive on the hardest parts of&nbsp;the craft</li>' +
+              '<li>intensives where we unpack and try specific teaching practices</li>' +
               '<li>then several weeks of&nbsp;teaching children, with a weekly mentor debrief</li>' +
               '<li>late primary and early middle school — around the age when many children begin to&nbsp;lose interest in&nbsp;learning</li>' +
             '</ul>' +
@@ -24,7 +24,7 @@
               '<li>how do you get a class’s attention without raising your voice?</li>' +
               '<li>how do you build motivation that doesn’t depend on&nbsp;grades?</li>' +
               '<li>how do you start a lesson with a real question?</li>' +
-              '<li>how do you get children talking to&nbsp;each other instead of&nbsp;guessing what the teacher wants to&nbsp;hear?</li>' +
+              '<li>how do you get children to&nbsp;look for answers themselves instead of&nbsp;trying to&nbsp;guess what the teacher wants to&nbsp;hear?</li>' +
             '</ul>' +
           '</div>' +
           '<div class="program">' +
@@ -33,13 +33,13 @@
               '<li>rakazim are teachers too — they teach their own classes and help a whole team work better</li>' +
               '<li>leading people who don’t formally report to&nbsp;you</li>' +
               '<li>feedback people can actually use</li>' +
-              '<li>sharing the load — and somehow still finding time to&nbsp;teach</li>' +
+              '<li>distributing the workload across the team and making time for your own development and your colleagues’ development</li>' +
               '<li>built together with rakazim</li>' +
               '<li>the first pilot starts in&nbsp;fall 2026</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>Strong teachers need schools where they can do good work and want to&nbsp;stay. That’s why this program exists.</p>',
+        '<p>Strong teachers need schools where they can do good work and want to&nbsp;stay. That’s why we work not only with teachers, but also with people who shape how a whole team works.</p>',
       h_believe: "Why teachers?",
       a_believe:
         '<p>One good teacher can shape hundreds of&nbsp;children. Some teachers also shape the adults around them.</p>' +
@@ -85,13 +85,13 @@
       h_programs: "Программы",
       a_programs:
         '<p class="programs-lead">Мы делаем программы для учителей и&nbsp;координаторов. Каждая начинается с&nbsp;интенсива и&nbsp;быстро переходит к&nbsp;практике: учителя ведут занятия с&nbsp;детьми, а&nbsp;координаторы приносят реальные ситуации из&nbsp;своих школ и&nbsp;разбирают их вместе. На&nbsp;протяжении всей программы группу сопровождает ментор. Больше половины каждой программы — практика.</p>' +
-        '<p class="programs-lead">Мы не&nbsp;пришли продавать новую педагогику. Мы используем подходы, которым доверяем — и&nbsp;которые уже изучали и&nbsp;проверяли, такие как: исследовательское обучение, структурированные дискуссии и&nbsp;повседневное учительское ремесло.</p>' +
+        '<p class="programs-lead">Мы не&nbsp;пришли продавать новую педагогику. Мы используем подходы, которым доверяем и&nbsp;которые уже хорошо изучены, такие как исследовательское и&nbsp;деятельностное обучение, проектная работа.</p>' +
         '<p class="programs-lead">Проверка простая: работает&nbsp;ли это в&nbsp;обычном классе из&nbsp;35&nbsp;человек во&nbsp;вторник утром?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
             '<h3>Для учителей</h3>' +
             '<ul>' +
-              '<li>интенсив о&nbsp;самом сложном в&nbsp;ремесле</li>' +
+              '<li>интенсивы, где разбираем и&nbsp;пробуем конкретные педагогические практики</li>' +
               '<li>затем несколько недель занятий с&nbsp;детьми и&nbsp;еженедельный разбор с&nbsp;ментором</li>' +
               '<li>конец начальной и&nbsp;начало средней школы — примерно тот возраст, когда у&nbsp;многих детей начинает пропадать интерес к&nbsp;учёбе</li>' +
             '</ul>' +
@@ -100,7 +100,7 @@
               '<li>как собрать внимание класса, не&nbsp;повышая голоса?</li>' +
               '<li>как строить мотивацию, которая не&nbsp;держится на&nbsp;оценках?</li>' +
               '<li>как начать урок с&nbsp;настоящего вопроса?</li>' +
-              '<li>как сделать так, чтобы дети разговаривали друг с&nbsp;другом, а&nbsp;не&nbsp;угадывали, что хочет услышать учитель?</li>' +
+              '<li>как сделать так, чтобы дети сами искали ответы, а&nbsp;не&nbsp;пытались угадать, что хочет услышать учитель?</li>' +
             '</ul>' +
           '</div>' +
           '<div class="program">' +
@@ -109,13 +109,13 @@
               '<li>раказим тоже учителя — они ведут свои классы и&nbsp;помогают целой команде работать лучше</li>' +
               '<li>вести людей, которые формально тебе не&nbsp;подчиняются</li>' +
               '<li>давать обратную связь, которая действительно помогает</li>' +
-              '<li>делить нагрузку — и&nbsp;при этом как-то находить время на&nbsp;преподавание</li>' +
+              '<li>распределять нагрузку в&nbsp;команде и&nbsp;находить время на&nbsp;собственное развитие и&nbsp;развитие коллег</li>' +
               '<li>программу делаем вместе с&nbsp;самими раказим</li>' +
               '<li>первый пилот стартует осенью 2026 года</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>Сильным учителям нужны школы, в&nbsp;которых можно хорошо работать и&nbsp;хочется оставаться. Поэтому эта программа и&nbsp;существует.</p>',
+        '<p>Сильным учителям нужны школы, в&nbsp;которых можно хорошо работать и&nbsp;хочется оставаться. Поэтому мы работаем не&nbsp;только с&nbsp;учителями, но&nbsp;и&nbsp;с&nbsp;теми, кто влияет на&nbsp;работу целой команды.</p>',
       h_believe: "Почему именно учителя?",
       a_believe:
         '<p>Один хороший учитель может повлиять на&nbsp;сотни детей. Некоторые — ещё и&nbsp;на&nbsp;коллег вокруг себя.</p>' +
@@ -161,14 +161,14 @@
       h_programs: "תוכניות",
       a_programs:
         '<p class="programs-lead">אנחנו מפעילים תוכניות למורים ולרכזים ורכזות. כל תוכנית מתחילה בהכשרה אינטנסיבית ועוברת מהר לעבודה מעשית: מורים מלמדים ילדים, ורכזים ורכזות מביאים מצבים אמיתיים מבתי הספר שלהם ועובדים עליהם יחד. מנטור מלווה את הקבוצה לאורך כל התוכנית. יותר ממחצית מכל תוכנית מוקדשת לתרגול.</p>' +
-        '<p class="programs-lead">אין לנו פדגוגיה חדשה למכור. אנחנו משתמשים בגישות שאנחנו סומכים עליהן — ושכבר נחקרו ונבדקו, כמו למידת חקר, דיון מובנה והמלאכה היומיומית של ההוראה.</p>' +
+        '<p class="programs-lead">אין לנו פדגוגיה חדשה למכור. אנחנו משתמשים בגישות שאנחנו סומכים עליהן ושכבר נחקרו היטב, כמו למידת חקר, למידה מבוססת פעילות ועבודה מבוססת פרויקטים.</p>' +
         '<p class="programs-lead">המבחן פשוט: האם זה עדיין עובד בכיתה רגילה של 35 ילדים ביום שלישי בבוקר?</p>' +
         '<div class="programs">' +
           '<div class="program">' +
             '<h3>למורים</h3>' +
             '<ul>' +
-              '<li>הכשרה אינטנסיבית על החלקים הקשים ביותר במקצוע</li>' +
-              '<li>ואחריה כמה שבועות של הוראה, עם שיחה שבועית עם מנטור על השיעורים</li>' +
+              '<li>הכשרות אינטנסיביות שבהן לומדים ומנסים בפועל פרקטיקות הוראה קונקרטיות</li>' +
+              '<li>ואחריהן כמה שבועות של הוראה, עם שיחה שבועית עם מנטור על השיעורים</li>' +
               '<li>הכיתות הגבוהות של בית הספר היסודי ותחילת חטיבת הביניים — השנים שבהן ילדים רבים מתחילים לאבד עניין בלמידה</li>' +
             '</ul>' +
             '<p class="label">שאלות יומיומיות, אבל קשות</p>' +
@@ -176,7 +176,7 @@
               '<li>איך מרכזים את הקשב של הכיתה בלי להרים את הקול?</li>' +
               '<li>איך בונים מוטיבציה שלא תלויה בציונים?</li>' +
               '<li>איך מתחילים שיעור בשאלה אמיתית?</li>' +
-              '<li>איך גורמים לילדים לדבר זה עם זה במקום לנחש מה המורה רוצה לשמוע?</li>' +
+              '<li>איך גורמים לילדים לחפש תשובות בעצמם, במקום לנסות לנחש מה המורה רוצה לשמוע?</li>' +
             '</ul>' +
           '</div>' +
           '<div class="program">' +
@@ -185,13 +185,13 @@
               '<li>רכזים ורכזות הם גם מורים — הם מלמדים בכיתות שלהם ועוזרים לצוות שלם לעבוד טוב יותר</li>' +
               '<li>להוביל אנשים שלא כפופים לכם רשמית</li>' +
               '<li>לתת משוב שאפשר באמת לעשות איתו משהו</li>' +
-              '<li>לחלק את העומס — ובכל זאת איכשהו למצוא זמן ללמד</li>' +
+              '<li>לחלק את העומס בצוות ולמצוא זמן להתפתחות שלכם ושל העמיתים שלכם</li>' +
               '<li>בונים יחד עם רכזים ורכזות</li>' +
               '<li>פיילוט ראשון יוצא לדרך בסתיו 2026</li>' +
             '</ul>' +
           '</div>' +
         '</div>' +
-        '<p>מורים חזקים צריכים בתי ספר שבהם אפשר לעבוד טוב ושבהם רוצים להישאר. בשביל זה התוכנית הזאת קיימת.</p>',
+        '<p>מורים חזקים צריכים בתי ספר שבהם אפשר לעבוד טוב ושבהם רוצים להישאר. לכן אנחנו עובדים לא רק עם מורים, אלא גם עם מי שמשפיעים על האופן שבו צוות שלם עובד.</p>',
       h_believe: "למה דווקא מורים?",
       a_believe:
         '<p>מורה טוב אחד יכול להשפיע על מאות ילדים. יש מורים שמשפיעים גם על הצוות שסביבם.</p>' +
