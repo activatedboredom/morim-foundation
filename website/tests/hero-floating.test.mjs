@@ -55,7 +55,7 @@ test('random arrivals keep a strict three-element cap with unique content and bo
   assert.equal(replaceHeroFloater(items, 9, random), items);
 });
 
-test('story appearance uses scroll progress instead of a timed entrance', () => {
+test('inline collage has no automatic entrance animation or clipping mask', () => {
   assert.deepEqual(
     heroFloatMotions.map((item) => item.motion),
     ['bob', 'drift', 'tilt'],
@@ -73,11 +73,61 @@ test('story appearance uses scroll progress instead of a timed entrance', () => 
   assert(appearance.includes('--story-opacity'));
   assert(!css.includes('@keyframes hero-story-arrive'));
   assert(!css.includes('clip-path:'));
-  const placement = css
-    .split('.hero-editorial[data-story-stage] .hero-app-item[data-slot] {')[1]
+});
+
+test('static collage is larger, overlaps but, and still reserves space above the copy', () => {
+  const css = readFileSync(
+    new URL('../app/hero-floating.css', import.meta.url),
+    'utf8',
+  );
+  const field = css
+    .split(".hero-editorial[data-media-layout='static'] > .hero-accents {")[1]
     .split('}')[0];
-  assert(!placement.includes('--scroll-reveal'));
-  assert(placement.includes('--float-x') && placement.includes('--float-y'));
+  assert(field.includes('display: block'));
+  assert(field.includes('position: relative'));
+  assert(field.includes('inset: auto'));
+  assert(field.includes('transform: none'));
+  assert(field.includes('width: min(56rem, calc(100vw - 3.5rem))'));
+  assert(field.includes('height: 28rem'));
+  assert(field.includes('margin: -6rem auto 0'));
+  assert(!field.includes('--title-top') && !field.includes('--title-height'));
+  const hero = readFileSync(
+    new URL('../app/hero.tsx', import.meta.url),
+    'utf8',
+  );
+  const poofEffect = hero
+    .split('return startHeroPoof(')[0]
+    .split('useEffect(() => {')
+    .at(-1);
+  assert(poofEffect.includes("if (variant === 'original') return"));
+  assert(
+    hero.includes('scrollReveal={scrollCollage ? collageProgress : undefined}'),
+  );
+  assert(
+    hero.indexOf("{variant === 'original' && accents}") >
+      hero.lastIndexOf('</h1>'),
+  );
+});
+
+test('scroll variation overlays the headline without being fixed or floating', () => {
+  const css = readFileSync(
+    new URL('../app/hero-floating.css', import.meta.url),
+    'utf8',
+  );
+  const field = css
+    .split(".hero-editorial[data-media-layout='scroll'] > .hero-accents {")[1]
+    .split('}')[0];
+  assert(field.includes('position: absolute'));
+  assert(field.includes('--but-center-y'));
+  assert(!field.includes('position: fixed') && !field.includes('animation:'));
+  const hero = readFileSync(
+    new URL('../app/hero.tsx', import.meta.url),
+    'utf8',
+  );
+  assert(hero.includes('aria-pressed={mediaMode === mode}'));
+  assert(hero.includes('setMediaMode(mode)'));
+  assert(hero.includes("window.scrollTo({ top: 0, behavior: 'instant' })"));
+  assert(hero.includes('inert={reveal !== undefined && reveal === 0}'));
 });
 
 test('story begins with two icons and expands to eight distinct items with three videos', () => {

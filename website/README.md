@@ -32,11 +32,12 @@ workflow is supplied in this PR.
 
 - Centered Alpina headline and layout scaled from a 1440px reference; responsive mobile layouts.
 - Compact, rounded floating navigation.
-- Scroll-linked hero sequence: two faint icons initially hint at the content; eight items
-  (five icons and three real video embeds) fade into focus in fixed positions over the title.
-  There is no sliding or clipping mask. They reveal while the intro is near the bottom of
-  the viewport, then poof when it reaches about 55% of the viewport height. Scrolling back
-  restores the same items and reverses the reveal, without automatic cycling.
+- A bottom-left “Hero test” switch compares two versions using the same eight items
+  (five icons and three real video embeds). Static is the default: a larger collage
+  overlaps “but…” and reserves space before the explanatory copy. On scroll reveals
+  the collage over the headline, then fades it away as the intro moves upward.
+  No automatic floating, sliding, clipping mask, or poof in either main-page version.
+  Switching versions returns to the top; scrolling backward reverses the scroll reveal.
 - TikTok, Twitch clips, and CNN/YouTube videos request muted autoplay, with native controls.
   Browser/provider restrictions, consent screens, unavailable clips, and ad blockers may
   prevent playback; autoplay is not guaranteed.
@@ -48,7 +49,8 @@ workflow is supplied in this PR.
 ## Editing
 
 - `app/home-content.tsx`: main page content and section order.
-- `app/hero.tsx`, `app/hero-floating.css`, `lib/hero-poof.ts`: main hero sequence.
+- `app/hero.tsx`, `app/hero-floating.css`, `lib/hero-collage.ts`: main hero variations.
+- `lib/hero-poof.ts`: retained motion for the exploratory context variant.
 - `app/hero-video.tsx`, `lib/hero-videos.ts`: external video players and source catalog.
 - `app/sections.tsx`, `app/sections.css`: programs, results, team, and FAQ.
 - `app/globals.css`, `app/mobile.css`: shared typography and responsive layout.

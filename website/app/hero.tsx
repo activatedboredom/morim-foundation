@@ -13,7 +13,8 @@ import {
   notificationDuration,
 } from '@/lib/hero-notification';
 import { attentionStatement } from '@/lib/hero-content';
-import { startHeroPoof, heroStoryItemProgress } from '@/lib/hero-poof';
+import { startHeroPoof } from '@/lib/hero-poof';
+import { heroCollageProgress } from '@/lib/hero-collage';
 import { poof, clearPoofs } from '@/lib/poof';
 import { heroVideos } from '@/lib/hero-videos';
 import { HeroVideoPlayer } from './hero-video';
@@ -41,7 +42,9 @@ export function Hero({
   const but = useRef<HTMLSpanElement>(null);
   const context = useRef<HTMLDivElement>(null);
   const [floaters, setFloaters] = useState<HeroFloater[]>([]);
-  const [storyProgress, setStoryProgress] = useState(0);
+  const [mediaMode, setMediaMode] = useState<'static' | 'scroll'>('static');
+  const [collageProgress, setCollageProgress] = useState(0);
+  const scrollCollage = variant === 'original' && mediaMode === 'scroll';
   const [deck, setDeck] = useState(() =>
     variant === 'original'
       ? {
@@ -63,71 +66,65 @@ export function Hero({
   const [dragging, setDragging] = useState(false);
   const [dismissing, setDismissing] = useState<number | null>(null);
   const [scrollDismissed, setScrollDismissed] = useState(false);
-  const storyStage = scrollDismissed
-    ? 'dismissed'
-    : storyProgress > 0
-      ? 'burst'
-      : 'peek';
   const nextAutoSlot = useRef(0);
   const autoDismissing = useRef(false);
   const playing = visible && !reduced && !scrollDismissed;
   const looping = playing;
   const fewerApps = compact || variant === 'original';
 
-  useLayoutEffect(() => {
-    const section = hero.current;
-    const anchor = but.current;
-    if (!section || !anchor || variant !== 'original') return;
-    let disposed = false;
-    const update = () => {
-      if (disposed) return;
-      const sectionRect = section.getBoundingClientRect();
-      const wordRect = anchor.getBoundingClientRect();
-      const titleRect = section.querySelector('h1')!.getBoundingClientRect();
-      section.style.setProperty(
-        '--title-top',
-        `${titleRect.top - sectionRect.top}px`,
-      );
-      section.style.setProperty('--title-height', `${titleRect.height}px`);
-      section.style.setProperty(
-        '--but-center-y',
-        `${wordRect.top - sectionRect.top + wordRect.height / 2}px`,
-      );
-    };
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(section);
-    observer.observe(anchor);
-    window.addEventListener('resize', update);
-    void document.fonts.ready.then(update);
-    return () => {
-      disposed = true;
-      observer.disconnect();
-      window.removeEventListener('resize', update);
-      section.style.removeProperty('--but-center-y');
-      section.style.removeProperty('--title-top');
-      section.style.removeProperty('--title-height');
-    };
-  }, [compact, variant]);
-
   useEffect(() => {
     if (variant === 'original') setFloaters(createHeroStoryFloaters());
   }, [variant]);
 
-  useEffect(() => {
-    if (hero.current)
-      return startHeroPoof(
-        hero.current,
-        setScrollDismissed,
-        poof,
-        clearPoofs,
-        variant === 'original'
-          ? {
-              intro: document.querySelector('[data-hero-story-end]'),
-              onProgress: setStoryProgress,
-            }
-          : undefined,
+  useLayoutEffect(() => {
+    const section = hero.current;
+    const anchor = but.current;
+    const intro = document.querySelector('[data-hero-story-end]');
+    if (!scrollCollage || !section || !anchor || !intro) return;
+    let frame = 0;
+    let disposed = false;
+    const update = () => {
+      frame = 0;
+      if (disposed) return;
+      const word = anchor.getBoundingClientRect();
+      section.style.setProperty(
+        '--but-center-y',
+        `${word.top - section.getBoundingClientRect().top + word.height / 2}px`,
       );
+      setCollageProgress(
+        heroCollageProgress(
+          intro.getBoundingClientRect().top,
+          window.innerHeight,
+          window.scrollY,
+        ),
+      );
+    };
+    const schedule = () => {
+      if (!frame && !disposed) frame = requestAnimationFrame(update);
+    };
+    const observer = new ResizeObserver(schedule);
+    observer.observe(section);
+    observer.observe(anchor);
+    observer.observe(intro);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    void document.fonts.ready.then(schedule);
+    update();
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      section.style.removeProperty('--but-center-y');
+    };
+  }, [scrollCollage, compact]);
+
+  useEffect(() => {
+    // The main collage is part of the page flow, not a scroll-triggered overlay.
+    if (variant === 'original') return;
+    if (hero.current)
+      return startHeroPoof(hero.current, setScrollDismissed, poof, clearPoofs);
   }, [compact, variant]);
 
   useLayoutEffect(() => {
@@ -239,14 +236,9 @@ export function Hero({
           mediaActive={
             visible &&
             !scrollDismissed &&
-            (variant !== 'original' ||
-              heroStoryItemProgress(storyProgress, slot) >= 0.9)
+            (!scrollCollage || collageProgress > 0.7)
           }
-          scrollReveal={
-            variant === 'original'
-              ? heroStoryItemProgress(storyProgress, slot)
-              : undefined
-          }
+          scrollReveal={scrollCollage ? collageProgress : undefined}
           reduced={reduced}
           compact={compact}
           cycling={false}
@@ -276,95 +268,121 @@ export function Hero({
   );
 
   return (
-    <section
-      ref={hero}
-      className={
-        variant === 'context'
-          ? 'hero hero-context-layout'
-          : 'hero hero-editorial'
-      }
-      data-playing={playing}
-      data-looping={looping && !focused && !dragging}
-      data-scroll-dismissed={scrollDismissed}
-      data-story-stage={variant === 'original' ? storyStage : undefined}
-      aria-labelledby="hero-title"
-    >
+    <>
       {variant === 'original' && (
-        <p className="hero-eyebrow">Meet the Foundation</p>
-      )}
-      {compact ? (
-        <div className="hero-mobile-content" ref={context}>
-          <h1
-            id="hero-title"
-            aria-label="one good teacher can shape hundreds of children, but..."
-          >
-            one good
-            <br />
-            teacher can
-            <br />
-            shape hundreds
-            <br />
-            of children,
-            <br />
-            <span className="hero-line" ref={but}>
-              but...
-            </span>
-          </h1>
-          <div className="hero-mobile-deck">
-            {variant === 'context' ? accents : null}
-          </div>
-          {variant === 'context' && (
-            <p className="hero-context-copy">{attentionStatement}</p>
-          )}
-        </div>
-      ) : variant === 'context' ? (
-        <>
-          <h1
-            id="hero-title"
-            aria-label="one good teacher can shape hundreds of children, but..."
-          >
-            one good
-            <br />
-            teacher can
-            <br />
-            shape hundreds
-            <br />
-            of children,
-            <br />
-            <span className="hero-line" ref={but}>
-              but...
-            </span>
-          </h1>
-          <div className="hero-context" ref={context}>
-            <p className="hero-context-copy">{attentionStatement}</p>
-            {accents}
-          </div>
-        </>
-      ) : (
-        <h1
-          id="hero-title"
-          aria-label="one good teacher can shape hundreds of children, but..."
+        <div
+          className="hero-variation-switch"
+          role="group"
+          aria-label="Hero preview variation"
         >
-          one good
-          <br />
-          teacher can
-          <br />
-          shape hundreds
-          <br />
-          of children,
-          <br />
-          <span className="hero-line" ref={but}>
-            but...
-          </span>
-        </h1>
+          <span>Hero test</span>
+          {(['static', 'scroll'] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              aria-pressed={mediaMode === mode}
+              onClick={() => {
+                if (mode === mediaMode) return;
+                setCollageProgress(0);
+                setMediaMode(mode);
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }}
+            >
+              {mode === 'static' ? 'Static' : 'On scroll'}
+            </button>
+          ))}
+        </div>
       )}
-      {variant === 'original' && accents}
-      <span id="hero-app-help" className="sr-only">
-        {compact
-          ? 'Tap or press Enter to dismiss an item and show the next one. Swipe vertically to keep reading.'
-          : 'Drag an app to move it. Click or press Enter to dismiss it and show the next app.'}
-      </span>
-    </section>
+      <section
+        ref={hero}
+        className={
+          variant === 'context'
+            ? 'hero hero-context-layout'
+            : 'hero hero-editorial'
+        }
+        data-playing={playing}
+        data-looping={looping && !focused && !dragging}
+        data-scroll-dismissed={scrollDismissed}
+        data-media-layout={variant === 'original' ? mediaMode : undefined}
+        aria-labelledby="hero-title"
+      >
+        {variant === 'original' && (
+          <p className="hero-eyebrow">Meet the Foundation</p>
+        )}
+        {compact ? (
+          <div className="hero-mobile-content" ref={context}>
+            <h1
+              id="hero-title"
+              aria-label="one good teacher can shape hundreds of children, but..."
+            >
+              one good
+              <br />
+              teacher can
+              <br />
+              shape hundreds
+              <br />
+              of children,
+              <br />
+              <span className="hero-line" ref={but}>
+                but...
+              </span>
+            </h1>
+            {variant === 'context' && (
+              <div className="hero-mobile-deck">{accents}</div>
+            )}
+            {variant === 'context' && (
+              <p className="hero-context-copy">{attentionStatement}</p>
+            )}
+          </div>
+        ) : variant === 'context' ? (
+          <>
+            <h1
+              id="hero-title"
+              aria-label="one good teacher can shape hundreds of children, but..."
+            >
+              one good
+              <br />
+              teacher can
+              <br />
+              shape hundreds
+              <br />
+              of children,
+              <br />
+              <span className="hero-line" ref={but}>
+                but...
+              </span>
+            </h1>
+            <div className="hero-context" ref={context}>
+              <p className="hero-context-copy">{attentionStatement}</p>
+              {accents}
+            </div>
+          </>
+        ) : (
+          <h1
+            id="hero-title"
+            aria-label="one good teacher can shape hundreds of children, but..."
+          >
+            one good
+            <br />
+            teacher can
+            <br />
+            shape hundreds
+            <br />
+            of children,
+            <br />
+            <span className="hero-line" ref={but}>
+              but...
+            </span>
+          </h1>
+        )}
+        {variant === 'original' && accents}
+        <span id="hero-app-help" className="sr-only">
+          {compact
+            ? 'Tap or press Enter to dismiss an item and show the next one. Swipe vertically to keep reading.'
+            : 'Drag an app to move it. Click or press Enter to dismiss it and show the next app.'}
+        </span>
+      </section>
+    </>
   );
 }
 
@@ -524,8 +542,8 @@ function AppItem({
       data-kind={kind}
       data-provider={video?.provider}
       data-motion={floating?.motion}
-      data-story-visible={reveal === undefined || slot < 2 || reveal > 0}
-      inert={reveal !== undefined && slot >= 2 && reveal === 0}
+      data-story-visible={reveal === undefined || reveal > 0}
+      inert={reveal !== undefined && reveal === 0}
       data-dragging={dragging}
       data-dismissing={dismissing}
       aria-label={
@@ -543,7 +561,7 @@ function AppItem({
           ...(reveal !== undefined
             ? {
                 '--scroll-reveal': reveal,
-                '--story-opacity': slot < 2 ? 0.35 + 0.65 * reveal : reveal,
+                '--story-opacity': reveal,
                 '--story-blur': reduced ? '0px' : `${(1 - reveal) * 8}px`,
               }
             : {}),
