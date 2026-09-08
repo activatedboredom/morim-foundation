@@ -3,15 +3,52 @@ import { test } from 'node:test';
 import {
   heroPoofActive,
   heroStoryStage,
+  heroStoryProgress,
+  heroStoryItemProgress,
   startHeroPoof,
 } from '../lib/hero-poof.ts';
 
-test('story peeks, bursts on scroll, then permanently dismisses when intro enters', () => {
+test('story dismissal reverses on scroll-back, with a small hysteresis at the intro', () => {
   assert.equal(heroStoryStage(0, 950, 900, false), 'peek');
-  assert.equal(heroStoryStage(40, 910, 900, false), 'burst');
-  assert.equal(heroStoryStage(140, 810, 900, false), 'dismissed');
-  assert.equal(heroStoryStage(0, 950, 900, true), 'dismissed');
+  assert.equal(heroStoryStage(40, 910, 900, false), 'peek');
+  assert.equal(heroStoryStage(140, 810, 900, false), 'burst');
+  assert.equal(heroStoryStage(460, 490, 900, false), 'dismissed');
+  assert.equal(heroStoryStage(0, 950, 900, true), 'peek');
+  assert.equal(heroStoryStage(445, 505, 900, true), 'dismissed');
+  assert.equal(heroStoryStage(435, 515, 900, true), 'burst');
   assert.equal(heroStoryStage(0, 450, 900, false), 'peek');
+});
+
+test('appearance progress scrubs deterministically in both directions, with staggered items', () => {
+  const at = (y) => heroStoryProgress(y, 1200 - y, 900);
+  assert.equal(at(0), 0);
+  assert.equal(at(470), 1);
+  assert(at(400) > at(350));
+  assert(at(400) < 1);
+  assert.equal(at(400), at(400));
+  assert.equal(heroStoryItemProgress(0, 7), 0);
+  assert.equal(heroStoryItemProgress(1, 7), 1);
+  assert(heroStoryItemProgress(0.5, 2) > heroStoryItemProgress(0.5, 7));
+  assert.equal(heroStoryProgress(100, Infinity, 900), 0);
+});
+
+test('reference screenshot one shows the elements; screenshot two triggers the poof', () => {
+  // Screenshots share a content viewport from y=107 to y=1146.
+  const height = 1039;
+  assert.equal(heroStoryProgress(250, 851, height), 1);
+  assert.equal(heroStoryStage(250, 851, height, false), 'burst');
+  assert.equal(heroStoryStage(535, 565, height, false), 'dismissed');
+  for (const viewport of [600, 800, 1200]) {
+    assert.equal(heroStoryProgress(200, viewport * 0.81, viewport), 1);
+    assert.equal(
+      heroStoryStage(200, viewport * 0.81, viewport, false),
+      'burst',
+    );
+    assert.equal(
+      heroStoryStage(400, viewport * 0.54, viewport, false),
+      'dismissed',
+    );
+  }
 });
 
 test('poof waits for the word to reach viewport center and rearms below it', () => {
@@ -170,9 +207,9 @@ test('scroll puffs once at each visible face, restores on return and cleans up',
   assert.equal(hero.dataset.poofed, 'true');
   cleanupDeepLink();
 
-  // The new story dismisses only at the intro, and never rearms on scroll-back.
+  // Scroll-back restores the same deck after the intro poof.
   window.scrollY = 0;
-  let burst = 0;
+  const progress = [];
   const cleanupStory = startHeroPoof(
     hero,
     () => {},
@@ -183,21 +220,23 @@ test('scroll puffs once at each visible face, restores on return and cleans up',
     () => {},
     {
       intro: { getBoundingClientRect: () => ({ top: 1200 - window.scrollY }) },
-      dismissed: false,
-      onBurst: () => burst++,
+      onProgress: (value) => progress.push(value),
     },
   );
   const before = puffs.length;
-  scroll(300);
+  scroll(400);
   assert.equal(hero.dataset.poofed, 'false');
-  assert(burst > 0);
-  scroll(390);
+  assert(progress.at(-1) > 0);
+  scroll(705);
   assert.equal(hero.dataset.poofed, 'true');
   assert.equal(puffs.length, before + 1);
   scroll(0);
-  scroll(400);
+  assert.equal(hero.dataset.poofed, 'false');
+  assert.equal(accents.inert, false);
+  assert.equal(progress.at(-1), 0);
+  scroll(710);
   assert.equal(hero.dataset.poofed, 'true');
-  assert.equal(puffs.length, before + 1);
+  assert.equal(puffs.length, before + 2);
   cleanupStory();
   const cleanupRestoredStory = startHeroPoof(
     hero,
@@ -207,14 +246,11 @@ test('scroll puffs once at each visible face, restores on return and cleans up',
     },
     () => {},
     {
-      intro: { getBoundingClientRect: () => ({ top: 1200 }) },
-      dismissed: true,
-      onBurst: () => {
-        throw Error('A completed story must not burst again');
-      },
+      intro: { getBoundingClientRect: () => ({ top: 1200 - window.scrollY }) },
+      onProgress: () => {},
     },
   );
   scroll(0);
-  assert.equal(hero.dataset.poofed, 'true');
+  assert.equal(hero.dataset.poofed, 'false');
   cleanupRestoredStory();
 });

@@ -2,9 +2,12 @@ type PlayPoof = (x: number, y: number) => number;
 
 type HeroStoryOptions = {
   intro: HTMLElement | null;
-  dismissed: boolean;
-  onBurst: () => void;
+  onProgress: (progress: number) => void;
 };
+
+// Viewport-relative cues from the two reference screenshots: the intro is
+// near the bottom during the reveal, then just below center at the poof.
+const storyCues = { revealStart: 0.96, revealEnd: 0.82, poof: 0.55 };
 
 export function heroStoryStage(
   scrollY: number,
@@ -12,9 +15,33 @@ export function heroStoryStage(
   viewportHeight: number,
   dismissed: boolean,
 ) {
-  if (dismissed || (scrollY > 12 && introTop <= viewportHeight * 0.9))
+  if (
+    scrollY > 12 &&
+    introTop <= viewportHeight * storyCues.poof + (dismissed ? 12 : 0)
+  )
     return 'dismissed';
-  return scrollY > 12 ? 'burst' : 'peek';
+  return heroStoryProgress(scrollY, introTop, viewportHeight) > 0
+    ? 'burst'
+    : 'peek';
+}
+
+export function heroStoryProgress(
+  scrollY: number,
+  introTop: number,
+  viewportHeight: number,
+) {
+  if (scrollY <= 12 || viewportHeight <= 0) return 0;
+  const distance =
+    viewportHeight * (storyCues.revealStart - storyCues.revealEnd);
+  return Math.max(
+    0,
+    Math.min(1, (viewportHeight * storyCues.revealStart - introTop) / distance),
+  );
+}
+
+export function heroStoryItemProgress(progress: number, slot: number) {
+  const start = slot < 2 ? 0 : (slot - 2) * 0.07;
+  return Math.max(0, Math.min(1, (progress - start) / (1 - start)));
 }
 
 // A little hysteresis prevents repeated puffs from tiny trackpad movements.
@@ -39,7 +66,7 @@ export function startHeroPoof(
   const anchor = hero.querySelector<HTMLElement>('.hero-line');
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   let frame: number | undefined;
-  let dismissed = story?.dismissed ?? false;
+  let dismissed = false;
   let hidden = false;
   let initialized = false;
 
@@ -54,7 +81,14 @@ export function startHeroPoof(
           dismissed,
         )
       : null;
-    if (stage === 'burst') story?.onBurst();
+    if (story)
+      story.onProgress(
+        heroStoryProgress(
+          window.scrollY,
+          story.intro?.getBoundingClientRect().top ?? Infinity,
+          window.innerHeight,
+        ),
+      );
     const active = story
       ? stage === 'dismissed'
       : rect

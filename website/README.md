@@ -32,9 +32,11 @@ workflow is supplied in this PR.
 
 - Centered Alpina headline and layout scaled from a 1440px reference; responsive mobile layouts.
 - Compact, rounded floating navigation.
-- One-way hero sequence: two cropped icons peek around “but...”; scrolling reveals eight
-  items over the title (five icons and three real video embeds); when the introductory
-  “kids today...” paragraph enters view, the items poof away and stay dismissed until reload.
+- Scroll-linked hero sequence: two faint icons initially hint at the content; eight items
+  (five icons and three real video embeds) fade into focus in fixed positions over the title.
+  There is no sliding or clipping mask. They reveal while the intro is near the bottom of
+  the viewport, then poof when it reaches about 55% of the viewport height. Scrolling back
+  restores the same items and reverses the reveal, without automatic cycling.
 - TikTok, Twitch clips, and CNN/YouTube videos request muted autoplay, with native controls.
   Browser/provider restrictions, consent screens, unavailable clips, and ad blockers may
   prevent playback; autoplay is not guaranteed.

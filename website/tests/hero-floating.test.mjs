@@ -55,7 +55,7 @@ test('random arrivals keep a strict three-element cap with unique content and bo
   assert.equal(replaceHeroFloater(items, 9, random), items);
 });
 
-test('story items arrive once without an automatic sink-out or scaling', () => {
+test('story appearance uses scroll progress instead of a timed entrance', () => {
   assert.deepEqual(
     heroFloatMotions.map((item) => item.motion),
     ['bob', 'drift', 'tilt'],
@@ -64,13 +64,20 @@ test('story items arrive once without an automatic sink-out or scaling', () => {
     new URL('../app/hero-floating.css', import.meta.url),
     'utf8',
   );
-  const cycle = css
-    .split('@keyframes hero-story-arrive {')[1]
-    .split('.hero-editorial')[0];
-  assert(!cycle.includes('scale('));
-  assert.equal((cycle.match(/translateY\(2\.25rem\)/g) || []).length, 1);
-  assert(cycle.includes('translateY(0)'));
-  assert(!cycle.includes('infinite'));
+  const appearance = css
+    .split('.hero-editorial .hero-app-bob {')[1]
+    .split('}')[0];
+  assert(appearance.includes('animation: none'));
+  assert(appearance.includes('--story-blur'));
+  assert(appearance.includes('transform: none'));
+  assert(appearance.includes('--story-opacity'));
+  assert(!css.includes('@keyframes hero-story-arrive'));
+  assert(!css.includes('clip-path:'));
+  const placement = css
+    .split('.hero-editorial[data-story-stage] .hero-app-item[data-slot] {')[1]
+    .split('}')[0];
+  assert(!placement.includes('--scroll-reveal'));
+  assert(placement.includes('--float-x') && placement.includes('--float-y'));
 });
 
 test('story begins with two icons and expands to eight distinct items with three videos', () => {

@@ -13,7 +13,7 @@ import {
   notificationDuration,
 } from '@/lib/hero-notification';
 import { attentionStatement } from '@/lib/hero-content';
-import { startHeroPoof } from '@/lib/hero-poof';
+import { startHeroPoof, heroStoryItemProgress } from '@/lib/hero-poof';
 import { poof, clearPoofs } from '@/lib/poof';
 import { heroVideos } from '@/lib/hero-videos';
 import { HeroVideoPlayer } from './hero-video';
@@ -41,10 +41,7 @@ export function Hero({
   const but = useRef<HTMLSpanElement>(null);
   const context = useRef<HTMLDivElement>(null);
   const [floaters, setFloaters] = useState<HeroFloater[]>([]);
-  const [storyStage, setStoryStage] = useState<'peek' | 'burst' | 'dismissed'>(
-    'peek',
-  );
-  const storyDismissed = useRef(false);
+  const [storyProgress, setStoryProgress] = useState(0);
   const [deck, setDeck] = useState(() =>
     variant === 'original'
       ? {
@@ -66,6 +63,11 @@ export function Hero({
   const [dragging, setDragging] = useState(false);
   const [dismissing, setDismissing] = useState<number | null>(null);
   const [scrollDismissed, setScrollDismissed] = useState(false);
+  const storyStage = scrollDismissed
+    ? 'dismissed'
+    : storyProgress > 0
+      ? 'burst'
+      : 'peek';
   const nextAutoSlot = useRef(0);
   const autoDismissing = useRef(false);
   const playing = visible && !reduced && !scrollDismissed;
@@ -116,23 +118,13 @@ export function Hero({
     if (hero.current)
       return startHeroPoof(
         hero.current,
-        (dismissed) => {
-          setScrollDismissed(dismissed);
-          if (variant === 'original' && dismissed) {
-            storyDismissed.current = true;
-            setStoryStage('dismissed');
-          }
-        },
+        setScrollDismissed,
         poof,
         clearPoofs,
         variant === 'original'
           ? {
               intro: document.querySelector('[data-hero-story-end]'),
-              dismissed: storyDismissed.current,
-              onBurst: () =>
-                setStoryStage((current) =>
-                  current === 'peek' ? 'burst' : current,
-                ),
+              onProgress: setStoryProgress,
             }
           : undefined,
       );
@@ -237,17 +229,24 @@ export function Hero({
           setFocused(false);
       }}
     >
-      {(variant === 'original'
-        ? floaters.slice(0, storyStage === 'peek' ? 2 : 8)
-        : deck.items
-      ).map((item, slot) => (
+      {(variant === 'original' ? floaters : deck.items).map((item, slot) => (
         <AppItem
           key={slot}
           item={item}
           slot={slot}
           boundary={variant === 'context' ? context : hero}
           playing={playing}
-          mediaActive={visible && !scrollDismissed}
+          mediaActive={
+            visible &&
+            !scrollDismissed &&
+            (variant !== 'original' ||
+              heroStoryItemProgress(storyProgress, slot) >= 0.9)
+          }
+          scrollReveal={
+            variant === 'original'
+              ? heroStoryItemProgress(storyProgress, slot)
+              : undefined
+          }
           reduced={reduced}
           compact={compact}
           cycling={false}
@@ -379,6 +378,7 @@ type AppItemProps = {
   compact: boolean;
   cycling: boolean;
   floating?: HeroFloater;
+  scrollReveal?: number;
   dismissing: boolean;
   onDrag: (dragging: boolean) => void;
   onCycle: () => void;
@@ -395,6 +395,7 @@ function AppItem({
   compact,
   cycling,
   floating,
+  scrollReveal,
   dismissing,
   onDrag,
   onCycle,
@@ -429,15 +430,12 @@ function AppItem({
   useEffect(() => {
     setVideoArrived(false);
     if (kind !== 'media' || !mediaActive) return;
-    if (reduced) {
+    if (reduced || floating) {
       setVideoArrived(true);
       return;
     }
     // Don't initialize autoplay while the card is still hidden by its entrance.
-    const timer = setTimeout(
-      () => setVideoArrived(true),
-      (floating?.delay ?? 0) + (floating?.duration ?? 0),
-    );
+    const timer = setTimeout(() => setVideoArrived(true), 0);
     return () => clearTimeout(timer);
   }, [
     kind,
@@ -513,6 +511,10 @@ function AppItem({
   const video =
     kind === 'media' ? heroVideos[preview % heroVideos.length] : null;
   const Tag = video ? 'div' : 'button';
+  const reveal =
+    reduced && scrollReveal !== undefined
+      ? Number(scrollReveal > 0)
+      : scrollReveal;
   return (
     <Tag
       type={video ? undefined : 'button'}
@@ -522,6 +524,8 @@ function AppItem({
       data-kind={kind}
       data-provider={video?.provider}
       data-motion={floating?.motion}
+      data-story-visible={reveal === undefined || slot < 2 || reveal > 0}
+      inert={reveal !== undefined && slot >= 2 && reveal === 0}
       data-dragging={dragging}
       data-dismissing={dismissing}
       aria-label={
@@ -536,6 +540,13 @@ function AppItem({
         {
           '--drag-x': `${offset.x}px`,
           '--drag-y': `${offset.y}px`,
+          ...(reveal !== undefined
+            ? {
+                '--scroll-reveal': reveal,
+                '--story-opacity': slot < 2 ? 0.35 + 0.65 * reveal : reveal,
+                '--story-blur': reduced ? '0px' : `${(1 - reveal) * 8}px`,
+              }
+            : {}),
           ...(floating
             ? {
                 '--float-x': floating.x,
