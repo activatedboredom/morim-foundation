@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -39,11 +40,18 @@
         <a href="#team">הצוות</a>
         <a href="#faq">שאלות</a>
       </nav>
-      <nav class="lang-switcher lang-switcher-header" aria-label="שפה">
-  <a href="../" hreflang="en" lang="en">EN</a>
-  <a href="../ru/" hreflang="ru" lang="ru">RU</a>
-  <a href="../he/" hreflang="he" lang="he" aria-current="page">עב</a>
-</nav>
+      <div class="lang-menu">
+  <button type="button" class="lang-menu-button" aria-haspopup="true" aria-expanded="false"
+          aria-controls="lang-menu-list" aria-label="שפה">
+    <span>עב</span>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <ul id="lang-menu-list" class="lang-menu-list" hidden>
+    <li><a href="../" hreflang="en" lang="en">English<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></a></li>
+    <li><a href="../ru/" hreflang="ru" lang="ru">Русский<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></a></li>
+    <li><a href="../he/" hreflang="he" lang="he" aria-current="page">עברית<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></a></li>
+  </ul>
+</div>
       <a class="button" href="mailto:contact@morim.foundation">צרו קשר</a>
       <button type="button" class="mobile-menu-trigger" data-dialog="mobile-menu" aria-haspopup="dialog">תפריט</button>
     </header>

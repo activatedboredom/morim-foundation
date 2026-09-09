@@ -68,6 +68,9 @@ export function initListbox(root, onChange) {
     if (['ArrowDown', 'ArrowUp'].includes(event.key)) {
       event.preventDefault();
       open();
+    } else if (event.key === 'Escape' && !list.hidden) {
+      event.preventDefault();
+      close();
     }
   };
   const onListKey = (event) => {

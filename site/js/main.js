@@ -12,6 +12,7 @@ import { watchProgramMotionPreference } from './program-motion.js';
 import { startPrograms } from './programs.js';
 import { startHero } from './hero/hero.js';
 import { startLanguage } from './lang.js';
+import { startLanguageMenu } from './lang-menu.js';
 
 const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const FAQ_MOTION = { duration: 250, easing: EASING, fade: 200 };
@@ -41,5 +42,6 @@ if (root) {
   const hero = root.querySelector('.hero');
   if (hero) startHero(hero);
 
+  root.querySelectorAll('.lang-menu').forEach((menu) => startLanguageMenu(menu));
   startLanguage(root);
 }

@@ -17,6 +17,21 @@
 </nav>
 {%- endmacro %}
 
+{% macro lang_menu() -%}
+<div class="lang-menu">
+  <button type="button" class="lang-menu-button" aria-haspopup="true" aria-expanded="false"
+          aria-controls="lang-menu-list" aria-label="{{ t.switcher.label }}">
+    <span>{{ t.switcher.names[lang] }}</span>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <ul id="lang-menu-list" class="lang-menu-list" hidden>
+    {% for l in langs %}
+    <li><a href="{{ l.href }}" hreflang="{{ l.code }}" lang="{{ l.code }}"{% if l.current %} aria-current="page"{% endif %}>{{ l.name }}<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></a></li>
+    {% endfor %}
+  </ul>
+</div>
+{%- endmacro %}
+
 {% macro apply_button(class) -%}
 <a class="{{ class }}" href="{{ t.links.survey }}">{{ t.programs.apply }}</a>
 {%- endmacro %}
@@ -138,7 +153,7 @@
         <a href="#{{ item.id }}">{{ item.label }}</a>
         {% endfor %}
       </nav>
-      {{ switcher('lang-switcher-header') }}
+      {{ lang_menu() }}
       <a class="button" href="{{ t.links.email }}">{{ t.header.contact }}</a>
       <button type="button" class="mobile-menu-trigger" data-dialog="mobile-menu" aria-haspopup="dialog">{{ t.header.menu }}</button>
     </header>
