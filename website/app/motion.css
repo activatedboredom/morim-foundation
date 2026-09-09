@@ -35,13 +35,18 @@
   display: flow-root;
   background: var(--background);
 }
-@media (min-width: 701px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .story-stack > .panel {
     scale: var(--card-entry-scale, 1);
+    transform: perspective(100rem) rotateX(var(--card-entry-tilt, 0deg));
     transform-origin: center top;
+    box-shadow: 0 1.5rem 3.5rem -1rem
+      rgb(24 32 34 / var(--card-entry-shadow, 0));
   }
   .story-stack:has(:focus-visible) > .panel {
     scale: 1;
+    transform: none;
+    box-shadow: none;
   }
 }
 .hero-app-bob {

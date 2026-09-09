@@ -443,9 +443,16 @@ main {
 }
 .hero-notification {
   position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   right: -0.6em;
   top: -0.6em;
-  padding: 0.38em 0.55em;
+  width: max-content;
+  min-width: 1.75em;
+  height: 1.75em;
+  padding: 0 0.42em;
+  white-space: nowrap;
   border-radius: 2em;
   color: white;
   background: #ff3131;
@@ -453,7 +460,6 @@ main {
     500 max(0.75rem, 0.075em) / 1 system-ui,
     sans-serif;
   letter-spacing: -0.03em;
-  min-width: 3em;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }

@@ -1,37 +1,56 @@
-export function cardEntryScale(top: number, viewportHeight: number) {
-  if (viewportHeight <= 0) return 1;
-  // Fully settled once the card's top reaches the upper fifth of the screen.
+export function cardEntryPose(
+  top: number,
+  viewportHeight: number,
+  compact = false,
+) {
+  if (viewportHeight <= 0) return { scale: 1, tilt: 0, shadow: 0 };
+  // Unroll from the top edge and settle before the main reading area.
   const progress = Math.max(
     0,
-    Math.min(1, (viewportHeight - top) / (viewportHeight * 0.8)),
+    Math.min(1, (viewportHeight - top) / (viewportHeight * 0.7)),
   );
   const eased = progress * progress * (3 - 2 * progress);
-  return 0.97 + 0.03 * eased;
+  const remaining = 1 - eased;
+  return {
+    scale: 1 + (compact ? 0.04 : 0.08) * remaining,
+    tilt: remaining === 0 ? 0 : (compact ? -4 : -8) * remaining,
+    shadow: 0.18 * remaining,
+  };
+}
+
+export function cardEntryScale(top: number, viewportHeight: number) {
+  return cardEntryPose(top, viewportHeight).scale;
 }
 
 export function startCardDepth(root: HTMLElement) {
   const cards = Array.from(
     root.querySelectorAll<HTMLElement>('.story-stack > .panel'),
   );
-  const enabled = window.matchMedia(
-    '(min-width: 701px) and (prefers-reduced-motion: no-preference)',
-  );
+  const enabled = window.matchMedia('(prefers-reduced-motion: no-preference)');
   let frame: number | undefined;
   const update = () => {
     frame = undefined;
     // Read all geometry before writing styles. A top-center origin keeps these
     // top measurements independent of the scale, avoiding feedback/jitter.
-    const scales = cards.map((card) =>
+    const poses = cards.map((card) =>
       enabled.matches
-        ? cardEntryScale(
+        ? cardEntryPose(
             card.getBoundingClientRect().top,
             window.innerHeight,
-          ).toFixed(5)
-        : '1',
+            window.innerWidth <= 700,
+          )
+        : { scale: 1, tilt: 0, shadow: 0 },
     );
     cards.forEach((card, index) => {
-      if (card.style.getPropertyValue('--card-entry-scale') !== scales[index]) {
-        card.style.setProperty('--card-entry-scale', scales[index]);
+      const pose = poses[index];
+      const properties = {
+        '--card-entry-scale': pose.scale.toFixed(5),
+        '--card-entry-tilt': `${pose.tilt.toFixed(3)}deg`,
+        '--card-entry-shadow': pose.shadow.toFixed(4),
+      };
+      for (const [name, value] of Object.entries(properties)) {
+        if (card.style.getPropertyValue(name) !== value)
+          card.style.setProperty(name, value);
       }
     });
   };
@@ -54,6 +73,13 @@ export function startCardDepth(root: HTMLElement) {
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('resize', schedule);
     enabled.removeEventListener('change', schedule);
-    cards.forEach((card) => card.style.removeProperty('--card-entry-scale'));
+    cards.forEach((card) => {
+      for (const name of [
+        '--card-entry-scale',
+        '--card-entry-tilt',
+        '--card-entry-shadow',
+      ])
+        card.style.removeProperty(name);
+    });
   };
 }

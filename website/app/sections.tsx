@@ -258,15 +258,6 @@ function TbilisiResults() {
 }
 
 export function Team() {
-  const carousel = useRef<HTMLDivElement>(null);
-  function move(direction: number) {
-    carousel.current?.scrollBy({
-      left: direction * 418,
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        ? 'instant'
-        : 'smooth',
-    });
-  }
   return (
     <section className="team" id="team" aria-labelledby="team-title">
       <p className="eyebrow">People behind the Foundation</p>
@@ -278,7 +269,6 @@ export function Team() {
       </h2>
       <div
         className="team-track"
-        ref={carousel}
         tabIndex={0}
         role="region"
         aria-label="Foundation team"
@@ -290,14 +280,7 @@ export function Team() {
             aria-label="Elena Bunina portrait pending"
           />
           <p className="person-role">Founder, Patron</p>
-          <h3>
-            Elena{' '}
-            <span className="glyph name-b">
-              <span className="sr-only">B</span>
-              <img src={`${A}imgB.svg`} alt="" width="26" height="29" />
-            </span>
-            unina
-          </h3>
+          <h3>Elena Bunina</h3>
           <p>
             Professor of Mathematics at Bar-Ilan University and head of{' '}
             <a
@@ -317,14 +300,7 @@ export function Team() {
             aria-label="Vlad Stepanov portrait pending"
           />
           <p className="person-role">Managing Partner</p>
-          <h3>
-            Vl
-            <span className="glyph name-a">
-              <span className="sr-only">a</span>
-              <img src={`${A}imgA.svg`} alt="" width="25" height="22" />
-            </span>
-            d Stepanov
-          </h3>
+          <h3>Vlad Stepanov</h3>
           <p>
             Former CEO of{' '}
             <a href="https://gradarius.com/" target="_blank" rel="noreferrer">
@@ -346,14 +322,6 @@ export function Team() {
             <p>Description</p>
           </article>
         ))}
-      </div>
-      <div className="carousel-controls">
-        <button onClick={() => move(-1)} aria-label="Previous team members">
-          ←
-        </button>
-        <button onClick={() => move(1)} aria-label="Next team members">
-          →
-        </button>
       </div>
     </section>
   );

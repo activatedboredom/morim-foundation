@@ -107,7 +107,7 @@ export function MorimPage({
           aria-labelledby="fellowship-title"
         >
           <FloatingApply />
-          <p className="eyebrow">Teachers Fellowship</p>
+          <p className="eyebrow">Morim fellows</p>
           <h2 className="display" id="fellowship-title">
             dear te
             <span className="glyph teacher-a">
@@ -168,7 +168,7 @@ export function MorimPage({
           aria-labelledby="leaders-title"
         >
           <FloatingApply />
-          <p className="eyebrow muted">Coming Soon</p>
+          <p className="eyebrow muted">Morim leaders</p>
           <h2 className="display" id="leaders-title">
             dear sch
             <span className="glyph school-oo">

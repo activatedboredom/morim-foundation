@@ -5,8 +5,10 @@ import {
   createHeroFloaters,
   replaceHeroFloater,
   MAX_HERO_FLOATERS,
+  HERO_VIDEO_COUNT,
   heroFloatMotions,
   createHeroStoryFloaters,
+  heroCompositionSlots,
 } from '../lib/hero-floating.ts';
 
 function randomSource() {
@@ -49,7 +51,7 @@ test('random arrivals keep a strict three-element cap with unique content and bo
     assert.equal(items[slot].appearance, previous[slot].appearance + 1);
     assert.equal(items[(slot + 1) % 3], previous[(slot + 1) % 3]);
   }
-  assert.equal(seen.size, 13);
+  assert.equal(seen.size, 7 + HERO_VIDEO_COUNT);
   assert(positions.size > 500);
   assert(durations.size > 100);
   assert.equal(replaceHeroFloater(items, 9, random), items);
@@ -166,4 +168,117 @@ test('initial elements are staggered; positions are spread rather than piled up'
       }
     }
   }
+});
+
+test('click replacement preserves the collage count and changes only the clicked content', () => {
+  const random = randomSource();
+  let items = createHeroStoryFloaters(random);
+  const content = (item) =>
+    `${item.kind}:${item.kind === 'media' ? item.preview : item.app}`;
+  for (let index = 0; index < 100; index++) {
+    const slot = index % 8;
+    const previous = items;
+    items = replaceHeroFloater(previous, slot, random);
+    assert.equal(items.length, 8);
+    assert.notEqual(content(items[slot]), content(previous[slot]));
+    assert.equal(new Set(items.map(content)).size, 8);
+    previous.forEach((item, other) => {
+      if (other !== slot) assert.equal(items[other], item);
+    });
+  }
+});
+
+test('manual dismissal plays smoke, hides immediately, and replaces after the poof', () => {
+  const hero = readFileSync(
+    new URL('../app/hero.tsx', import.meta.url),
+    'utf8',
+  );
+  const css = readFileSync(
+    new URL('../app/hero-floating.css', import.meta.url),
+    'utf8',
+  );
+  assert(hero.includes('if (face) poofElement(face, { hide: false })'));
+  assert(hero.includes("variant === 'original' ? POOF_DURATION_MS : 180"));
+  assert(hero.includes('replaceHeroFloater(current, dismissing)'));
+  assert(hero.includes('if (suppressClick.current && event.detail !== 0)'));
+  const dismissal = css
+    .split(
+      ".hero-editorial .hero-app-item[data-dismissing='true'] .hero-app-face {",
+    )[1]
+    .split('}')[0];
+  assert(dismissal.includes('animation: none'));
+  assert(dismissal.includes('opacity: 0'));
+  assert(!css.includes('@keyframes hero-sink-dismiss'));
+});
+
+test('video cards have a full-face keyboard-accessible poof target', () => {
+  const css = readFileSync(
+    new URL('../app/hero-floating.css', import.meta.url),
+    'utf8',
+  );
+  const target = css.split('.hero-video-poof-target {')[1].split('}')[0];
+  assert(target.includes('inset: 0'));
+  assert(target.includes('z-index: 2'));
+  const hero = readFileSync(
+    new URL('../app/hero.tsx', import.meta.url),
+    'utf8',
+  );
+  assert(hero.includes('if (video && !floating) return'));
+  assert(
+    hero.includes("interactive={!floating || video.provider === 'twitch'}"),
+  );
+  const video = readFileSync(
+    new URL('../app/hero-video.tsx', import.meta.url),
+    'utf8',
+  );
+  assert(video.includes('tabIndex={interactive ? undefined : -1}'));
+});
+
+test('repeated replacements retain composition roles, geometry, layering, and video count', () => {
+  const random = randomSource();
+  let items = createHeroStoryFloaters(random);
+  const original = items;
+  for (let turn = 0; turn < 1000; turn++) {
+    const slot = turn % items.length;
+    items = replaceHeroFloater(items, slot, random);
+    assert.equal(items.filter((item) => item.kind === 'media').length, 3);
+    items.forEach((item, index) => {
+      const placement = heroCompositionSlots[index];
+      assert.equal(item.compositionSlot, index);
+      assert.equal(item.kind, original[index].kind);
+      assert(Math.abs(item.x - placement.x) <= 0.035001);
+      assert(Math.abs(item.y - placement.y) <= 0.035001);
+      assert(Math.abs(item.mobileX - placement.mobileX) <= 0.021001);
+      assert(Math.abs(item.mobileY - placement.mobileY) <= 0.021001);
+      if (index === 4) assert.equal(item.tilt, 0);
+      else assert(Math.abs(item.tilt - placement.tilt) <= 1.50001);
+      assert(placement.mobileX >= 0 && placement.mobileX <= 1);
+      assert(placement.mobileY >= 0 && placement.mobileY <= 1);
+      if ('previews' in placement) {
+        assert(placement.previews.includes(item.preview));
+        assert(placement.layer <= 3);
+      } else assert(placement.layer >= 4);
+    });
+  }
+});
+
+test('icon artwork is masked independently from badges and mobile uses composition anchors', () => {
+  const css = readFileSync(
+    new URL('../app/hero-floating.css', import.meta.url),
+    'utf8',
+  );
+  const mask = css.split('.hero-app-icon-mask {')[1].split('}')[0];
+  assert(mask.includes('border-radius: 26%'));
+  assert(mask.includes('overflow: hidden'));
+  assert(css.includes('var(--composition-layer, 2)'));
+  assert(css.includes('--float-mobile-x') && css.includes('--float-mobile-y'));
+  const hero = readFileSync(
+    new URL('../app/hero.tsx', import.meta.url),
+    'utf8',
+  );
+  assert(hero.includes('<span className="hero-app-icon-mask">'));
+  assert(
+    hero.indexOf('<NotificationBadge') >
+      hero.indexOf('<span className="hero-app-icon-mask">'),
+  );
 });

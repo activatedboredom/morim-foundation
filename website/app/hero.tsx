@@ -14,12 +14,16 @@ import {
 } from '@/lib/hero-notification';
 import { attentionStatement } from '@/lib/hero-content';
 import { startHeroPoof } from '@/lib/hero-poof';
-import { heroCollageProgress } from '@/lib/hero-collage';
-import { poof, clearPoofs } from '@/lib/poof';
+import {
+  heroCollageProgress,
+  heroCollageStayProgress,
+} from '@/lib/hero-collage';
+import { poof, poofElement, clearPoofs, POOF_DURATION_MS } from '@/lib/poof';
 import { heroVideos } from '@/lib/hero-videos';
 import { HeroVideoPlayer } from './hero-video';
 import {
   createHeroStoryFloaters,
+  heroCompositionSlots,
   HERO_DISMISS_MS,
   replaceHeroFloater,
   type HeroFloater,
@@ -42,9 +46,11 @@ export function Hero({
   const but = useRef<HTMLSpanElement>(null);
   const context = useRef<HTMLDivElement>(null);
   const [floaters, setFloaters] = useState<HeroFloater[]>([]);
-  const [mediaMode, setMediaMode] = useState<'static' | 'scroll'>('static');
+  const [mediaMode, setMediaMode] = useState<'static' | 'scroll' | 'stay'>(
+    'static',
+  );
   const [collageProgress, setCollageProgress] = useState(0);
-  const scrollCollage = variant === 'original' && mediaMode === 'scroll';
+  const scrollCollage = variant === 'original' && mediaMode !== 'static';
   const [deck, setDeck] = useState(() =>
     variant === 'original'
       ? {
@@ -73,14 +79,44 @@ export function Hero({
   const fewerApps = compact || variant === 'original';
 
   useEffect(() => {
-    if (variant === 'original') setFloaters(createHeroStoryFloaters());
+    if (variant === 'original') {
+      let lastVideoIds: string[] = [];
+      try {
+        const stored = JSON.parse(
+          sessionStorage.getItem('morim-hero-last-videos') ?? '[]',
+        );
+        if (Array.isArray(stored))
+          lastVideoIds = stored.filter((id) => typeof id === 'string');
+      } catch {
+        /* Storage is optional; fresh random selection still works. */
+      }
+      setFloaters(createHeroStoryFloaters(Math.random, lastVideoIds));
+    }
+    return clearPoofs;
   }, [variant]);
+
+  useEffect(() => {
+    if (variant !== 'original' || !floaters.length) return;
+    try {
+      sessionStorage.setItem(
+        'morim-hero-last-videos',
+        JSON.stringify(
+          floaters
+            .filter((item) => item.kind === 'media')
+            .map((item) => heroVideos[item.preview].id),
+        ),
+      );
+    } catch {
+      /* Browsers may disable session storage. */
+    }
+  }, [floaters, variant]);
 
   useLayoutEffect(() => {
     const section = hero.current;
     const anchor = but.current;
     const intro = document.querySelector('[data-hero-story-end]');
-    if (!scrollCollage || !section || !anchor || !intro) return;
+    const collage = section?.querySelector('.hero-accents');
+    if (!scrollCollage || !section || !anchor || !intro || !collage) return;
     let frame = 0;
     let disposed = false;
     const update = () => {
@@ -91,13 +127,21 @@ export function Hero({
         '--but-center-y',
         `${word.top - section.getBoundingClientRect().top + word.height / 2}px`,
       );
-      setCollageProgress(
-        heroCollageProgress(
-          intro.getBoundingClientRect().top,
-          window.innerHeight,
-          window.scrollY,
-        ),
-      );
+      if (mediaMode === 'stay') {
+        const top = collage.getBoundingClientRect().top;
+        const height = window.innerHeight;
+        const scroll = window.scrollY;
+        setCollageProgress((previous) =>
+          heroCollageStayProgress(previous, top, height, scroll),
+        );
+      } else
+        setCollageProgress(
+          heroCollageProgress(
+            intro.getBoundingClientRect().top,
+            window.innerHeight,
+            window.scrollY,
+          ),
+        );
     };
     const schedule = () => {
       if (!frame && !disposed) frame = requestAnimationFrame(update);
@@ -106,6 +150,7 @@ export function Hero({
     observer.observe(section);
     observer.observe(anchor);
     observer.observe(intro);
+    observer.observe(collage);
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     void document.fonts.ready.then(schedule);
@@ -118,7 +163,7 @@ export function Hero({
       window.removeEventListener('resize', schedule);
       section.style.removeProperty('--but-center-y');
     };
-  }, [scrollCollage, compact]);
+  }, [scrollCollage, compact, mediaMode]);
 
   useEffect(() => {
     // The main collage is part of the page flow, not a scroll-triggered overlay.
@@ -210,7 +255,7 @@ export function Hero({
           setDeck((current) => advanceHeroApps(current, dismissing, fewerApps));
         setDismissing(null);
       },
-      reduced ? 0 : variant === 'original' ? HERO_DISMISS_MS : 180,
+      reduced ? 0 : variant === 'original' ? POOF_DURATION_MS : 180,
     );
     return () => clearTimeout(timer);
   }, [dismissing, reduced, fewerApps, looping, focused, dragging, variant]);
@@ -236,6 +281,7 @@ export function Hero({
           mediaActive={
             visible &&
             !scrollDismissed &&
+            dismissing !== slot &&
             (!scrollCollage || collageProgress > 0.7)
           }
           scrollReveal={scrollCollage ? collageProgress : undefined}
@@ -258,6 +304,12 @@ export function Hero({
           }}
           onDismiss={() => {
             if (dismissing === null) {
+              if (variant === 'original' && !reduced) {
+                const face = hero.current?.querySelector<HTMLElement>(
+                  `.hero-app-item[data-slot="${slot}"] .hero-app-face`,
+                );
+                if (face) poofElement(face, { hide: false });
+              }
               autoDismissing.current = false;
               setDismissing(slot);
             }
@@ -276,7 +328,7 @@ export function Hero({
           aria-label="Hero preview variation"
         >
           <span>Hero test</span>
-          {(['static', 'scroll'] as const).map((mode) => (
+          {(['static', 'scroll', 'stay'] as const).map((mode) => (
             <button
               key={mode}
               type="button"
@@ -288,7 +340,11 @@ export function Hero({
                 window.scrollTo({ top: 0, behavior: 'instant' });
               }}
             >
-              {mode === 'static' ? 'Static' : 'On scroll'}
+              {mode === 'static'
+                ? 'Static'
+                : mode === 'scroll'
+                  ? 'On scroll'
+                  : 'Reveal & stay'}
             </button>
           ))}
         </div>
@@ -306,9 +362,6 @@ export function Hero({
         data-media-layout={variant === 'original' ? mediaMode : undefined}
         aria-labelledby="hero-title"
       >
-        {variant === 'original' && (
-          <p className="hero-eyebrow">Meet the Foundation</p>
-        )}
         {compact ? (
           <div className="hero-mobile-content" ref={context}>
             <h1
@@ -431,6 +484,10 @@ function AppItem({
   const suppressClick = useRef(false);
   const [videoArrived, setVideoArrived] = useState(false);
   const app = heroApps[item.app];
+  const composition =
+    floating?.compositionSlot === undefined
+      ? undefined
+      : heroCompositionSlots[floating.compositionSlot];
   const hasNotification = item.appearance % 3 !== 0;
   const preview = floating?.preview ?? item.appearance % 2;
   const kind =
@@ -541,6 +598,13 @@ function AppItem({
       data-slot={slot}
       data-kind={kind}
       data-provider={video?.provider}
+      data-format={
+        video
+          ? video.height > video.width
+            ? 'portrait'
+            : 'landscape'
+          : undefined
+      }
       data-motion={floating?.motion}
       data-story-visible={reveal === undefined || reveal > 0}
       inert={reveal !== undefined && reveal === 0}
@@ -578,6 +642,13 @@ function AppItem({
                 '--float-delay': `${floating.delay}ms`,
               }
             : {}),
+          ...(composition
+            ? {
+                '--float-mobile-x': floating?.mobileX ?? composition.mobileX,
+                '--float-mobile-y': floating?.mobileY ?? composition.mobileY,
+                '--composition-layer': composition.layer,
+              }
+            : {}),
           '--entry-delay':
             item.appearance < 8
               ? `${[0, 160, 460, 610, 920, 1050, 300, 780][slot]}ms`
@@ -590,7 +661,7 @@ function AppItem({
       onPointerCancel={(event) => end(event, true)}
       onLostPointerCapture={(event) => end(event, true)}
       onClick={(event) => {
-        if (video) return;
+        if (video && !floating) return;
         if (suppressClick.current && event.detail !== 0) {
           event.preventDefault();
           return;
@@ -616,23 +687,45 @@ function AppItem({
           data-initial={item.appearance < 8}
         >
           {video ? (
-            <span className="hero-live-media">
+            <>
               <button
                 type="button"
-                className="hero-video-dismiss sr-only"
-                aria-label={`Dismiss ${video.label}`}
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={onDismiss}
+                className={
+                  video.provider === 'twitch'
+                    ? 'hero-twitch-dismiss'
+                    : floating
+                      ? 'hero-video-poof-target'
+                      : 'hero-video-dismiss sr-only'
+                }
+                aria-label={`Dismiss ${video.label} and show the next element`}
+                onPointerDown={(event) => {
+                  if (!floating) event.stopPropagation();
+                }}
+                onClick={(event) => {
+                  // Main-page clicks bubble through the shared drag/click guard.
+                  if (floating) return;
+                  event.stopPropagation();
+                  onDismiss();
+                }}
               >
-                ×
+                {video.provider === 'twitch' || !floating ? '×' : null}
               </button>
-              <HeroVideoPlayer
-                video={video}
-                playing={playing}
-                reduced={reduced}
-                active={mediaActive && videoArrived}
-              />
-            </span>
+              <span className="hero-live-media">
+                <HeroVideoPlayer
+                  video={video}
+                  playing={playing}
+                  reduced={reduced}
+                  active={
+                    mediaActive &&
+                    videoArrived &&
+                    (video.provider !== 'twitch' ||
+                      reveal === undefined ||
+                      reveal === 1)
+                  }
+                  interactive={!floating || video.provider === 'twitch'}
+                />
+              </span>
+            </>
           ) : kind === 'message' ? (
             <span className="hero-message-preview">
               <img
@@ -654,13 +747,15 @@ function AppItem({
               </span>
             </span>
           ) : (
-            <img
-              src={app.src}
-              alt=""
-              width="73"
-              height="73"
-              draggable={false}
-            />
+            <span className="hero-app-icon-mask">
+              <img
+                src={app.src}
+                alt=""
+                width="73"
+                height="73"
+                draggable={false}
+              />
+            </span>
           )}
           {kind === 'icon' && hasNotification && (
             <NotificationBadge

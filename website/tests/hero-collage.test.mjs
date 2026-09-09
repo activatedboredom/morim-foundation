@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { heroCollageProgress } from '../lib/hero-collage.ts';
+import {
+  heroCollageProgress,
+  heroCollageStayProgress,
+} from '../lib/hero-collage.ts';
+import { readFileSync } from 'node:fs';
 
 test('scroll collage appears, holds, and disappears solely with scroll position', () => {
   for (const height of [600, 800, 1039, 1200]) {
@@ -17,6 +21,41 @@ test('scroll collage appears, holds, and disappears solely with scroll position'
     assert.equal(progress(0.75), 1);
     assert.equal(progress(1), 0);
   }
+});
+
+test('reveal-and-stay retains progress and stays visible after scrolling past or back', () => {
+  for (const height of [600, 800, 1039]) {
+    let value = heroCollageStayProgress(0, height, height, 0);
+    assert.equal(value, 0);
+    value = heroCollageStayProgress(value, height * 0.89, height, 100);
+    assert(Math.abs(value - 0.5) < 0.0001);
+    assert.equal(heroCollageStayProgress(value, height, height, 0), value);
+    value = heroCollageStayProgress(value, height * 0.8, height, 200);
+    assert.equal(value, 1);
+    assert.equal(heroCollageStayProgress(value, -height, height, 1500), 1);
+    assert.equal(heroCollageStayProgress(value, height, height, 0), 1);
+    assert.equal(heroCollageStayProgress(value, 0, 0, 300), 1);
+  }
+});
+
+test('third mode reserves collage space before the copy and is available in the switch', () => {
+  const css = readFileSync(
+    new URL('../app/hero-floating.css', import.meta.url),
+    'utf8',
+  );
+  const field = css
+    .split(".hero-editorial[data-media-layout='stay'] > .hero-accents,")[1]
+    .split('}')[0];
+  assert(field.includes('position: relative'));
+  assert(field.includes('height: 28rem'));
+  assert(field.includes('transform: none'));
+  const hero = readFileSync(
+    new URL('../app/hero.tsx', import.meta.url),
+    'utf8',
+  );
+  assert(hero.includes("['static', 'scroll', 'stay']"));
+  assert(hero.includes('Reveal & stay'));
+  assert(hero.includes('setCollageProgress(0)'));
 });
 
 test('scroll collage remains hidden at the top and handles invalid viewport height', () => {

@@ -1,6 +1,7 @@
+import { heroVideos, heroVideoPools } from './hero-videos.ts';
+
 export const MAX_HERO_FLOATERS = 3;
-// Kept in sync with the source catalog by hero-video tests.
-export const HERO_VIDEO_COUNT = 6;
+export const HERO_VIDEO_COUNT = heroVideos.length;
 export const HERO_DISMISS_MS = 450;
 export const heroFloatMotions = [
   { motion: 'bob', driftX: 0, driftY: -4, rock: 0 },
@@ -22,7 +23,62 @@ export type HeroFloater = {
   rock: number;
   duration: number;
   delay: number;
+  compositionSlot?: number;
+  mobileX?: number;
+  mobileY?: number;
+  seenPreviews?: number[];
 };
+
+// Portrait left, landscape upper-right, stream lower-center; icons frame the edges.
+// Desktop and mobile share roles and layering, not arbitrary collision-prone points.
+export const heroCompositionSlots = [
+  { x: 0.08, y: 0.83, mobileX: 0.03, mobileY: 0.87, tilt: -6, layer: 6 },
+  { x: 0.91, y: 0.92, mobileX: 0.95, mobileY: 0.96, tilt: 5, layer: 7 },
+  {
+    x: 0.04,
+    y: 0.24,
+    mobileX: 0.02,
+    mobileY: 0.23,
+    tilt: -4,
+    layer: 2,
+    previews: [...heroVideoPools.shorts, ...heroVideoPools.tiktok],
+  },
+  {
+    x: 0.88,
+    y: 0.06,
+    mobileX: 0.98,
+    mobileY: 0.07,
+    tilt: 3,
+    layer: 1,
+    previews: heroVideoPools.youtube,
+  },
+  {
+    x: 0.56,
+    y: 0.76,
+    mobileX: 0.62,
+    mobileY: 0.82,
+    tilt: -3,
+    layer: 3,
+    previews: heroVideoPools.twitch,
+  },
+  { x: 0.4, y: 0.06, mobileX: 0.4, mobileY: 0.03, tilt: 5, layer: 5 },
+  { x: 0.96, y: 0.47, mobileX: 0.98, mobileY: 0.47, tilt: 4, layer: 5 },
+  { x: 0.02, y: 0.03, mobileX: 0.03, mobileY: 0.02, tilt: -5, layer: 4 },
+] as const;
+
+function compositionPosition(slot: number, random: () => number) {
+  const anchor = heroCompositionSlots[slot];
+  const clamp = (value: number) => Math.max(0.01, Math.min(0.99, value));
+  const dx = (random() - 0.5) * 0.07;
+  const dy = (random() - 0.5) * 0.07;
+  return {
+    x: clamp(anchor.x + dx),
+    y: clamp(anchor.y + dy),
+    mobileX: clamp(anchor.mobileX + dx * 0.6),
+    mobileY: clamp(anchor.mobileY + dy * 0.6),
+    tilt: slot === 4 ? 0 : anchor.tilt + (random() - 0.5) * 3,
+  };
+}
 
 function spawn(
   others: HeroFloater[],
@@ -81,37 +137,38 @@ export function createHeroFloaters(random = Math.random): HeroFloater[] {
   return items;
 }
 
-// Two initial peeks, followed by a bounded, non-repeating eight-item burst.
-// Only three are video players, keeping the scroll sequence lightweight.
-export function createHeroStoryFloaters(random = Math.random): HeroFloater[] {
-  const positions = [
-    [0.18, 0.78],
-    [0.76, 0.88],
-    [0.08, 0.3],
-    [0.76, 0.15],
-    [0.42, 0.62],
-    [0.36, 0.08],
-    [0.9, 0.5],
-    [0.05, 0.02],
-  ];
+// Stable eight-slot composition, with only three video players.
+export function createHeroStoryFloaters(
+  random = Math.random,
+  lastVideoIds: string[] = [],
+): HeroFloater[] {
   const apps = [1, 2, 0, 5, 6];
-  const previews = [
-    random() < 0.5 ? 0 : 1,
-    random() < 0.5 ? 3 : 5,
-    random() < 0.5 ? 2 : 4,
-  ];
-  return positions.map(([x, y], slot) => ({
-    app: slot < 2 ? apps[slot] : slot > 4 ? apps[slot - 3] : 0,
-    appearance: 8 + slot,
-    kind: slot >= 2 && slot <= 4 ? 'media' : 'icon',
-    preview: slot >= 2 && slot <= 4 ? previews[slot - 2] : 0,
-    x,
-    y,
-    tilt: -5 + random() * 10,
-    ...heroFloatMotions[0],
-    duration: 700,
-    delay: slot < 2 ? slot * 180 : (slot - 2) * 80,
-  }));
+  return heroCompositionSlots.map((placement, slot) => {
+    const choices =
+      'previews' in placement
+        ? placement.previews.filter(
+            (index) => !lastVideoIds.includes(heroVideos[index].id),
+          )
+        : [];
+    const pool = choices.length
+      ? choices
+      : 'previews' in placement
+        ? placement.previews
+        : [0];
+    const preview = pool[Math.floor(random() * pool.length)];
+    return {
+      app: slot < 2 ? apps[slot] : slot > 4 ? apps[slot - 3] : 0,
+      appearance: 8 + slot,
+      kind: slot >= 2 && slot <= 4 ? 'media' : 'icon',
+      preview,
+      seenPreviews: [preview],
+      ...compositionPosition(slot, random),
+      compositionSlot: slot,
+      ...heroFloatMotions[0],
+      duration: 700,
+      delay: slot < 2 ? slot * 180 : (slot - 2) * 80,
+    };
+  });
 }
 
 export function replaceHeroFloater(
@@ -120,6 +177,39 @@ export function replaceHeroFloater(
   random = Math.random,
 ) {
   if (!items[slot]) return items;
+  const previous = items[slot];
+  if (previous.compositionSlot !== undefined) {
+    const placement = heroCompositionSlots[previous.compositionSlot];
+    const occupiedApps = new Set(
+      items.filter((item) => item.kind === 'icon').map((item) => item.app),
+    );
+    const candidates =
+      previous.kind === 'media' && 'previews' in placement
+        ? placement.previews.filter((preview) => preview !== previous.preview)
+        : Array.from({ length: 7 }, (_, app) => app).filter(
+            (app) => !occupiedApps.has(app),
+          );
+    const unseen = candidates.filter(
+      (preview) => !previous.seenPreviews?.includes(preview),
+    );
+    const choices =
+      previous.kind === 'media' && unseen.length ? unseen : candidates;
+    const choice = choices[Math.floor(random() * choices.length)];
+    if (choice === undefined) return items;
+    const next = {
+      ...previous,
+      ...compositionPosition(previous.compositionSlot, random),
+      ...(previous.kind === 'media' ? { preview: choice } : { app: choice }),
+      seenPreviews:
+        previous.kind === 'media'
+          ? unseen.length
+            ? [...(previous.seenPreviews ?? [previous.preview]), choice]
+            : [choice]
+          : undefined,
+      appearance: previous.appearance + 1,
+    };
+    return items.map((item, index) => (index === slot ? next : item));
+  }
   const next = spawn(
     items.filter((_, index) => index !== slot),
     items[slot],
