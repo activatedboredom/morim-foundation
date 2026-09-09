@@ -254,7 +254,11 @@
     <div class="team-track" tabindex="0" role="region" aria-label="{{ t.team.track_aria }}">
       {% for p in t.team.people %}
       <article class="person">
+        {% if p.photo %}
+        <img class="portrait" src="{{ root }}assets/{{ p.photo }}" alt="{{ p.name }}" width="420" height="510" loading="lazy">
+        {% else %}
         <div class="portrait-placeholder" role="img" aria-label="{{ t.team.portrait_pending.replace('{name}', p.name) }}"></div>
+        {% endif %}
         <p class="person-role">{{ p.role }}</p>
         <h3>{% if p.href %}<a href="{{ p.href }}" target="_blank" rel="noreferrer">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}</h3>
         <p>{{ p.bio_html }}</p>

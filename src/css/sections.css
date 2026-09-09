@@ -411,10 +411,17 @@
   flex: 0 0 23.625rem;
   scroll-snap-align: start;
 }
+.portrait,
 .portrait-placeholder {
   height: 29.5rem;
   border-radius: 1.25rem;
   background: #182022;
+}
+.portrait {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  object-position: 50% 25%;
 }
 .person-role {
   margin-top: 2.25rem;
@@ -661,6 +668,7 @@
   .person {
     flex-basis: 20.625rem;
   }
+  .portrait,
   .portrait-placeholder {
     height: 25.75rem;
   }
@@ -801,6 +809,7 @@
     padding-inline: 1.5rem;
     scroll-padding-inline: 1.5rem;
   }
+  .portrait,
   .portrait-placeholder {
     height: 24.375rem;
   }

@@ -171,24 +171,28 @@
     "portrait_pending": "Портрет: {name} (скоро)",
     "people": [
       {
+        "photo": "team-elena.jpg",
         "role": "Основательница и попечитель",
         "name": "Елена Бунина",
         "href": "https://www.linkedin.com/in/elena-bunina-738522eb/",
         "bio_html": "Профессор математики Университета Бар-Илан и руководитель <a href=\"https://academy.nebius.com/\" target=\"_blank\" rel=\"noreferrer\">Nebius Academy</a>."
       },
       {
+        "photo": "team-vlad.jpg",
         "role": "Управляющий партнёр",
         "name": "Влад Степанов",
         "href": "https://www.linkedin.com/in/utterstep/",
         "bio_html": "Экс-CEO <a href=\"https://gradarius.com/\" target=\"_blank\" rel=\"noreferrer\">Gradarius</a>, экс-CTO и руководитель Информатики в Яндекс.Образовании. 13+ лет в EdTech в США и СНГ."
       },
       {
+        "photo": "",
         "role": "Ведущий методист",
         "name": "Имя Фамилия",
         "href": "",
         "bio_html": "Описание"
       },
       {
+        "photo": "",
         "role": "Ведущий методист",
         "name": "Имя Фамилия",
         "href": "",

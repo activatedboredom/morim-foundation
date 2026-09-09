@@ -171,24 +171,28 @@
     "portrait_pending": "תמונה של {name} תתווסף בקרוב",
     "people": [
       {
+        "photo": "team-elena.jpg",
         "role": "מייסדת ופטרונית",
         "name": "אלנה בונינה",
         "href": "https://www.linkedin.com/in/elena-bunina-738522eb/",
         "bio_html": "פרופסור למתמטיקה באוניברסיטת בר-אילן וראש <a href=\"https://academy.nebius.com/\" target=\"_blank\" rel=\"noreferrer\">Nebius Academy</a>."
       },
       {
+        "photo": "team-vlad.jpg",
         "role": "שותף מנהל",
         "name": "ולאד סטפנוב",
         "href": "https://www.linkedin.com/in/utterstep/",
         "bio_html": "לשעבר מנכ״ל <a href=\"https://gradarius.com/\" target=\"_blank\" rel=\"noreferrer\">Gradarius</a>, לשעבר CTO וראש תחום Informatika ב-Yandex Education. 13+ שנות ניסיון ב-EdTech בארה״ב ובחבר המדינות."
       },
       {
+        "photo": "",
         "role": "מתודולוג/ית ראשי/ת",
         "name": "שם מלא",
         "href": "",
         "bio_html": "תיאור"
       },
       {
+        "photo": "",
         "role": "מתודולוג/ית ראשי/ת",
         "name": "שם מלא",
         "href": "",

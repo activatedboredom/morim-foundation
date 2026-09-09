@@ -213,24 +213,28 @@
     "portrait_pending": "{name} portrait pending",
     "people": [
       {
+        "photo": "team-elena.jpg",
         "role": "Founder, Patron",
         "name": "Elena Bunina",
         "href": "https://www.linkedin.com/in/elena-bunina-738522eb/",
         "bio_html": "Professor of Mathematics at Bar-Ilan University and head of <a href=\"https://academy.nebius.com/\" target=\"_blank\" rel=\"noreferrer\">Nebius Academy</a>."
       },
       {
+        "photo": "team-vlad.jpg",
         "role": "Managing Partner",
         "name": "Vlad Stepanov",
         "href": "https://www.linkedin.com/in/utterstep/",
         "bio_html": "Former CEO of <a href=\"https://gradarius.com/\" target=\"_blank\" rel=\"noreferrer\">Gradarius</a>; ex-CTO and Head of Informatika at Yandex Education. 13+ years in EdTech in the US and the CIS."
       },
       {
+        "photo": "",
         "role": "Lead Methodologist",
         "name": "Name Name",
         "href": "",
         "bio_html": "Description"
       },
       {
+        "photo": "",
         "role": "Lead Methodologist",
         "name": "Name Name",
         "href": "",
